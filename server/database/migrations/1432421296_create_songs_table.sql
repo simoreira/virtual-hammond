@@ -1,0 +1,8 @@
+CREATE TABLE songs(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    rtttl TEXT,
+    wave_form TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
