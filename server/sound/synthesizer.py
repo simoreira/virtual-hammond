@@ -4,13 +4,20 @@ from struct import pack #apagar
 import sys
 import wave
 
+
+################################################
+#   TODO: amplitude = [0, 1/8, 2/8, etc, 8]
+#
+################################################
+
+
 #função responsavel por produzir uma sequencia de amostras
 #que iram representar a forma de onda de cada nota
 def synthesize(organ_registry_string, interpreter_list):
-	o_r_int_list = []
+	organ_reg_int = []
 	for i in range(0, len(organ_registry_string)):
 		tmp = list(organ_registry_string)
-		o_r_int_list.append(int(tmp[i]))
+		organ_reg_int.append(int(tmp[i]))
 
 	duration = []
 	frequencies = []
@@ -28,35 +35,38 @@ def synthesize(organ_registry_string, interpreter_list):
 	#equivalente ao numero de notas
 	#output samples é uma lista que contem listas de samples
 	for i in range(0, len(interpreter_list)):
-		output_samples.append(get_samples(o_r_int_list, duration[i], frequencies[i]))
+		output_samples.append(get_samples(organ_reg_int, duration[i], frequencies[i]))
+
+	#normalizar as samples antes de dar append para o output final
+
+	normalized_output_samples = normalize(output_samples)
 
 	#append dos valores para a lista de dicionarios a ser devolvida
 	for i in range(0, len(interpreter_list)):
-		output.append({'freq': frequencies[i], 'samples': output_samples[i]})
+		output.append({'freq': frequencies[i], 'samples': normalized_output_samples[i]})
 
 	return output 
 
 #funcao responsavel por produzir as samples de uma nota
 #tendo em conta a amplitude, duracao e frequencia
 #devolve uma lista com as samples de uma nota
-def get_samples(amp_list, duration, frequency):
+def get_samples(org_reg_list, duration, frequency):
 	rate = 44100
 	data = []
 	mult_frequencies = get_mult_freq(frequency)
 
 	for i in range(0, int(rate*duration)):
 		data.append(
-			(amp_list[0] * sin(2*pi*mult_frequencies[0]*i/rate)) +
-			(amp_list[1] * sin(2*pi*mult_frequencies[1]*i/rate)) +
-			(amp_list[2] * sin(2*pi*mult_frequencies[2]*i/rate)) +
-			(amp_list[3] * sin(2*pi*mult_frequencies[3]*i/rate)) +
-			(amp_list[4] * sin(2*pi*mult_frequencies[4]*i/rate)) +
-			(amp_list[5] * sin(2*pi*mult_frequencies[5]*i/rate)) +
-			(amp_list[6] * sin(2*pi*mult_frequencies[6]*i/rate)) +
-			(amp_list[7] * sin(2*pi*mult_frequencies[7]*i/rate)) +
-			(amp_list[8] * sin(2*pi*mult_frequencies[8]*i/rate))
+			(org_reg_list[0]/8 * sin(2*pi*mult_frequencies[0]*i/rate)) +
+			(org_reg_list[1]/8 * sin(2*pi*mult_frequencies[1]*i/rate)) +
+			(org_reg_list[2]/8 * sin(2*pi*mult_frequencies[2]*i/rate)) +
+			(org_reg_list[3]/8 * sin(2*pi*mult_frequencies[3]*i/rate)) +
+			(org_reg_list[4]/8 * sin(2*pi*mult_frequencies[4]*i/rate)) +
+			(org_reg_list[5]/8 * sin(2*pi*mult_frequencies[5]*i/rate)) +
+			(org_reg_list[6]/8 * sin(2*pi*mult_frequencies[6]*i/rate)) +
+			(org_reg_list[7]/8 * sin(2*pi*mult_frequencies[7]*i/rate)) +
+			(org_reg_list[8]/8 * sin(2*pi*mult_frequencies[8]*i/rate))
 		)
-	normalize(data)
 	return data
 
 def get_mult_freq(freq):
@@ -70,15 +80,27 @@ def get_mult_freq(freq):
 #funcao responsavel pela normalizacao das samples
 def normalize(data):
 	MAX_VALUE = 2 ** 15 - 1  #32767
-	maximum = max(abs(i) for i in data)
-	normalize_factor = 1
+	maximum = 0
+	for k in data:
+		for v in k:
+			if abs(v) > maximum:
+				maximum = abs(v) 
+
+	print maximum
+
 	if not maximum == 0:
 		normalize_factor = (float(MAX_VALUE)/ maximum)
 
-	data_to_return = []
+	print normalize_factor
+
+	normalized_data = []
+	tmp = []
 	for i in data:
-		data_to_return.append(i * normalize_factor)
-	return data_to_return
+		tmp = []
+		for values in i:
+			tmp.append(values * normalize_factor)
+		normalized_data.append(tmp)
+	return normalized_data
 #
 #------------------------------APAGAR------------------------------------
 def main(argv):
