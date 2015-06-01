@@ -13,6 +13,7 @@
 ```
 $ cd bin
 $ chmod +x setup_database.sh
+$ chmod +x seed_database.sh
 $ ./setup_database.sh
 $ ./seed_database.sh
 ```
