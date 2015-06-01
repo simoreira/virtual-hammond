@@ -1,12 +1,12 @@
-# -*- coding: utf-8 -*- 
 from math import sin, pi
 import sys
 
-
 class Synthesizer(object):
-	#função responsavel por produzir uma sequencia de amostras
-	#que iram representar a forma de onda de cada nota
 	def synthesize(self, organ_registry_string, interpreter_list):
+		'''
+		Method responsible for producing a sequence of samples
+		that will represent the wave form of each note.
+		'''
 		organ_reg_int = []
 		for i in range(0, len(organ_registry_string)):
 			tmp = list(organ_registry_string)
@@ -16,34 +16,29 @@ class Synthesizer(object):
 		frequencies = []
 		output_samples = []
 		output = []
-		#parse dos pares recebidos pelo interpretador 
-		#para duas listas, uma com as durações e outra
-		#com as frequencias
+
 		for i in range(0, len(interpreter_list)):
 			duration.append(interpreter_list[i][0])
 			frequencies.append(interpreter_list[i][1])
 
-		#criação da lista que será devolvida por este modulo
-		#lista esta composta por um numero de dicionarios 
-		#equivalente ao numero de notas
-		#output samples é uma lista que contem listas de samples
 		for i in range(0, len(interpreter_list)):
 			output_samples.append(get_samples(organ_reg_int, duration[i], frequencies[i]))
 
-		#normalizar as samples antes de dar append para o output final
-
 		normalized_output_samples = normalize(output_samples)
 
-		#append dos valores para a lista de dicionarios a ser devolvida
 		for i in range(0, len(interpreter_list)):
 			output.append({'freq': frequencies[i], 'samples': normalized_output_samples[i]})
 
-		return output 
+		return output
 
-	#funcao responsavel por produzir as samples de uma nota
-	#tendo em conta a amplitude, duracao e frequencia
-	#devolve uma lista com as samples de uma nota
 	def get_samples(self, org_reg_list, duration, frequency):
+		'''
+		Method responsible for producing the samples of a note
+		taking into consideration the amplitude, duration
+		and the frequency.
+
+		Returns a list of the samples of a note.
+		'''
 		rate = 44100
 		data = []
 		mult_frequencies = get_mult_freq(frequency)
@@ -68,16 +63,19 @@ class Synthesizer(object):
 		for i in range(0, 9):
 			data.append(freq*values[i])
 		data = map(int, data)
-		return data 
+		return data
 
-	#funcao responsavel pela normalizacao das samples
 	def normalize(self, data):
+		'''
+		Method responsible for normalizing the samples.
+		'''
 		MAX_VALUE = 2 ** 15 - 1  #32767
 		maximum = 0
+
 		for k in data:
 			for v in k:
 				if abs(v) > maximum:
-					maximum = abs(v) 
+					maximum = abs(v)
 
 		if not maximum == 0:
 			normalize_factor = (float(MAX_VALUE)/ maximum)
