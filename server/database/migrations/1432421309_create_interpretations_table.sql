@@ -1,7 +1,7 @@
 CREATE TABLE interpretations(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     song_id INTEGER,
-    registration TEXT,
+    registry TEXT,
     effects TEXT,
     wave_file TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
