@@ -1,5 +1,6 @@
-def parse(rtttl):
-    frequencies = {'a': 27.5, 'a1': 55.0, 'a2': 110.0, 'a3': 220.0, 'a4': 440.0, 'a5': 880.0,'a6': 1760.0, 'a7': 3520.0, 'a8': 7040.0, 
+class RtttlParser(object):
+
+    FREQUENCIES = {'a': 27.5, 'a1': 55.0, 'a2': 110.0, 'a3': 220.0, 'a4': 440.0, 'a5': 880.0,'a6': 1760.0, 'a7': 3520.0, 'a8': 7040.0, 
                    'a#': 29.14, 'a#1': 58.27, 'a#2': 116.54, 'a#3': 233.08, 'a#4': 466.16, 'a#5': 932.33, 'a#6': 1864.66,'a#7': 3729.31, 'a#8': 7458.62, 
                    'b': 30.87, 'b1': 61.74, 'b2': 123.47, 'b3': 246.94, 'b4': 493.88, 'b5': 987.77, 'b6': 1975.53, 'b7': 3951.07, 'b8': 7902.13, 
                    'c': 16.35, 'c1': 32.7, 'c2': 65.41, 'c3': 130.81, 'c4': 261.63, 'c5': 523.25, 'c6': 1046.5, 'c7': 2093.0, 'c8': 4186.01, 
@@ -13,75 +14,63 @@ def parse(rtttl):
                    'g#': 25.96, 'g#1': 51.91, 'g#2': 103.83,'g#3': 207.65, 'g#4': 415.3, 'g#5': 830.61, 'g#6': 1661.22, 'g#7': 3322.44, 'g#8': 6644.88, 
                    'h': 30.87, 'h1': 61.74, 'h2': 123.47, 'h3': 246.94, 'h4': 493.88, 'h5': 987.77, 'h6': 1975.53, 'h7': 3951.07, 'h8': 7902.13, 'p': 0}
 
-    interpreted_notes = []
-    
-    parts = rtttl.split(':')
-    
-    name     = parts[0]
-    defaults = parts[1].split(',')
-    notes    = parts[2].split(',')
+    def __init__(self, rtttl):
+        self.rtttl = rtttl
 
-    time = 0
+    def get_name(self):
+        return self.rtttl.split(':')[0]
 
-    for note in notes:
-        if note[0].isdigit():
-            time = int(note[0])
+    def get_defaults(self):
+        return self.rtttl.split(':')[1].split(',')
 
-            if note[1].isdigit():
-                time = time*10 + int(note[1])
+    def get_notes(self):
+        return self.rtttl.split(':')[2].split(',')
 
-            t1 = (60.0/int(defaults[2][2:]))*(4.0/time)
-        else:
-            time = int(defaults[0][2:])
+    def parse(self):
+        interpreted_notes = []
+        
+        name     = self.get_name()
+        defaults = self.get_defaults()
+        notes    = self.get_notes()
 
-            t1 = (60.0/int(defaults[2][2:]))*(4.0/int(defaults[0][2:]))
+        time = 0
 
-            note = str(time) + note;
+        for note in notes:
+            if note[0].isdigit():
+                time = int(note[0])
 
-        if '.' in note:
-            t1 = t1*1.5
+                if note[1].isdigit():
+                    time = time*10 + int(note[1])
 
-        note = note.replace('.', '')
+                duration = (60.0/int(defaults[2][2:]))*(4.0/time)
+            else:
+                time = int(defaults[0][2:])
 
-        if time > 10:
-            f1 = frequencies[note[2:]]
-        else:
-            f1 = frequencies[note[1:]]
+                duration = (60.0/int(defaults[2][2:]))*(4.0/int(defaults[0][2:]))
 
-        f1 = int(f1)
+                note = str(time) + note;
 
-        interpreted_notes.append((t1, f1))
+            if '.' in note:
+                duration = duration*1.5
 
-    return interpreted_notes
+            note = note.replace('.', '')
+
+            if time > 10:
+                frequency = self.FREQUENCIES[note[2:]]
+            else:
+                frequency = self.FREQUENCIES[note[1:]]
+
+            frequency = int(frequency)
+
+            interpreted_notes.append((duration, frequency))
+
+        return interpreted_notes
 
 
 if __name__ == '__main__':
     simpsons = "The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6"
 
-    oi = interpret(simpsons)
+    parser = RtttlParser(simpsons)
+    pairs = parser.parse()
 
-    banana = [
-        (0.5625, 1046),
-        (0.3750, 1318),
-        (0.3750, 1479),
-        (0.1875, 1760),
-        (0.5625, 1567),
-        (0.3750, 1318),
-        (0.3750, 1046),
-        (0.1875, 880),
-        (0.1875, 739),
-        (0.1875, 739),
-        (0.1875, 739),
-        (0.7500, 783),
-        (0.1875, 0),
-        (0.1875, 0),
-        (0.1875, 739),
-        (0.1875, 739),
-        (0.1875, 739),
-        (0.1875, 783),
-        (0.5625, 932),
-        (0.1875, 1046),
-        (0.1875, 1046),
-        (0.1875, 1046),
-        (0.3750, 1046)
-    ]
+    print pairs
