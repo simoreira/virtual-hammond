@@ -22,9 +22,9 @@ class Synthesizer(object):
 			frequencies.append(interpreter_list[i][1])
 
 		for i in range(0, len(interpreter_list)):
-			output_samples.append(get_samples(organ_reg_int, duration[i], frequencies[i]))
+			output_samples.append(self.get_samples(organ_reg_int, duration[i], frequencies[i]))
 
-		normalized_output_samples = normalize(output_samples)
+		normalized_output_samples = self.normalize(output_samples)
 
 		for i in range(0, len(interpreter_list)):
 			output.append({'freq': frequencies[i], 'samples': normalized_output_samples[i]})
@@ -41,7 +41,7 @@ class Synthesizer(object):
 		'''
 		rate = 44100
 		data = []
-		mult_frequencies = get_mult_freq(frequency)
+		mult_frequencies = self.get_mult_freq(frequency)
 
 		for i in range(0, int(rate*duration)):
 			data.append(

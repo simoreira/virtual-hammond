@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Ana Cruz, Fábio Maia, Miguel Ângelo, Inês Moreira">
+        <title>Virtual Hammond</title>
+        <link rel="stylesheet" href="styles/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/slider.css">
+        <link rel="stylesheet" href="styles/main.css">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    
+                    <a class="navbar-brand" href="/">Virtual Hammond</a>
+                </div>
+
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active"><a href="add.html">Adicionar música</a></li>
+                        <li><a href="list.html">Listar música</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <div class="container">
+                <div class="row">
+                    <form class="form">
+                        <div class="form-group">
+                            <label for="form-rtttl">RTTTL</label>
+                            <input type="text" class="form-control" id="form-rtttl" placeholder="The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6">
+                        </div>
+              
+                        <div class="form-group">
+                            <label for="form-organ-registry">Organ Registry</label>
+                            <input type="text" class="form-control" id="form-organ-registry" placeholder="888888888">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form-effects">Effects</label>
+                            
+                            <div>
+                                <div class="btn-group" id="form-effects" data-toggle="buttons">
+                                    <label for="btn-echo" class="btn btn-primary">
+                                        <input id="btn-echo" type="checkbox"> Echo
+                                    </label>
+
+                                    <label for="btn-tremolo" class="btn btn-primary">
+                                        <input id="btn-tremolo" type="checkbox"> Tremolo
+                                    </label>
+
+                                    <label for="btn-distortion" class="btn btn-primary">
+                                        <input id="btn-distortion" type="checkbox"> Distortion
+                                    </label>
+
+                                    <label for="btn-percussion" class="btn btn-primary">
+                                        <input id="btn-percussion" type="checkbox"> Percussion
+                                    </label>
+
+                                    <label for="btn-chorus" class="btn btn-primary">
+                                        <input id="btn-chorus" type="checkbox"> Chorus
+                                    </label>
+
+                                    <label for="btn-envelop" class="btn btn-primary">
+                                        <input id="btn-envelop" type="checkbox"> Envelop
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="effects">
+                            <div class="form-group" id="effect-echo">
+                                <label for="slider-echo">Echo</label>
+                                <input id="slider-echo" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-tremolo">
+                                <label for="slider-tremolo">Tremolo</label>
+                                <input id="slider-tremolo" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-distortion">
+                                <label for="slider-distortion">Distortion</label>
+                                <input id="slider-distortion" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-percussion">
+                                <label for="slider-percussion">Percussion</label>
+                                <input id="slider-percussion" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-chorus">
+                                <label for="slider-chorus">Chorus</label>
+                                <input id="slider-chorus" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-envelop">
+                                <label for="slider-envelop">Envelop</label>
+                                <input id="slider-envelop" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <small>
+                            <p>Copyright &copy; 2015 <a href="mailto:anapatriciacruz@ua.pt">Ana Cruz</a>, <a href="mailto:fabio.maia@ua.pt">Fábio Maia</a>, <a href="mailto:maps@ua.pt">Miguel Ângelo</a> e <a href="mailto:simoreira@ua.pt">Inês Moreira</a></p>
+                        </small>
+                    </div>  
+                </div>  
+            </div>
+        </footer>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="scripts/bootstrap-slider.min.js"></script>
+        <script src="scripts/bootstrap.min.js"></script>
+        <script src="scripts/main.js"></script>
+    </body>
+</html>
