@@ -14,7 +14,10 @@ class RtttlParser(object):
                    'h': 30.87, 'h1': 61.74, 'h2': 123.47, 'h3': 246.94, 'h4': 493.88, 'h5': 987.77, 'h6': 1975.53, 'h7': 3951.07, 'h8': 7902.13, 'p': 0}
 
     def __init__(self, rtttl):
-        self.rtttl = rtttl
+        self.rtttl    = rtttl
+        self.name     = self.get_name()
+        self.defaults = self.get_defaults()
+        self.notes    = self.get_notes()
 
     def get_name(self):
         return self.rtttl.split(':')[0]
@@ -25,7 +28,62 @@ class RtttlParser(object):
     def get_notes(self):
         return self.rtttl.split(':')[2].split(',')
 
-    def parse(self):
+    def valid_name(self, name):
+        if ':' in name:
+            return False
+        else:
+            return True
+
+    def valid_defaults(self, defaults):
+        possible_duration = ['1','2','4','8','16','32']
+        possible_octaves = ['1','2','3','4','5','6','7','8']
+        possible_bpm = ['25',  '28',  '31',  '35',  '40',  '45',  '50', '56',  '63',  '70',  '80',  '90',  '100', '112', '125', '140', '160', '180', '200', '225', '250','285', '320', '355', '400', '450', '500', '565', '635', '715', '800', '900']
+
+        if defaults[0][0] == 'd' and defaults[0][1] == '=':
+            for d in possible_duration:
+                if d in defaults[0][2:]:
+                    return True  
+        else:
+            return False 
+        
+        if defaults[1][0] == 'o' and defaults[1][1] == '=':
+            for o in possible_octaves:
+                if o in defaults[1][2:]:
+                    return True
+        else:
+            return False
+        
+        if defaults[2][0] == 'b' and defaults[2][1] == '=':
+            for b in possible_bpm:
+                if b in defaults[2][2:]:
+                    return True
+        else:
+            return False
+
+    def valid_note(self, note):
+        possible_duration = ['1','2','4','8','16','32']
+        possible_notes = ['a', 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a#', 'a#1', 'a#2', 'a#3', 'a#4', 'a#5', 'a#6', 'a#7', 'a#8', 'b', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'c', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c#', 'c#1', 'c#2', 'c#3', 'c#4', 'c#5', 'c#6', 'c#7', 'c#8', 'd', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd#', 'd#1', 'd#2', 'd#3', 'd#4', 'd#5', 'd#6', 'd#7', 'd#8', 'e', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'f', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f#', 'f#1', 'f#2', 'f#3', 'f#4', 'f#5', 'f#6', 'f#7', 'f#8', 'g', 'g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7', 'g8', 'g#', 'g#1', 'g#2', 'g#3', 'g#4', 'g#5', 'g#6', 'g#7', 'g#8', 'h', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'p']
+
+        if note[0].isdigit() and not note[1].isdigit():
+            if note[0] in possible_duration:
+                if note[1:] in possible_notes:
+                    return True
+            else:
+                return False
+
+        if(note[0].isdigit() and note[1].isdigit()): 
+            if note[:1] in possible_duration:
+                if note[2:] in possible_notes:
+                    return True
+            else:
+                return False
+        if note in possible_notes:
+            return True
+        else:
+            return False
+
+    def interpret(self):
+        allowed_characters = []
         interpreted_notes = []
         
         name     = self.get_name()
@@ -35,41 +93,44 @@ class RtttlParser(object):
         time = 0
 
         for note in notes:
-            if note[0].isdigit():
-                time = int(note[0])
+            if self.valid_note(note):
+                if note[0].isdigit():
+                    time = int(note[0])
 
-                if note[1].isdigit():
-                    time = time*10 + int(note[1])
+                    if note[1].isdigit():
+                        time = time*10 + int(note[1])
 
-                duration = (60.0/int(defaults[2][2:]))*(4.0/time)
+                    duration = (60.0/int(defaults[2][2:]))*(4.0/time)
+                else:
+                    time = int(defaults[0][2:])
+
+                    duration = (60.0/int(defaults[2][2:]))*(4.0/int(defaults[0][2:]))
+
+                    note = str(time) + note;
+
+                if '.' in note:
+                    duration = duration*1.5
+
+                note = note.replace('.', '')
+
+                if time > 10:
+                    frequency = self.FREQUENCIES[note[2:]]
+                else:
+                    frequency = self.FREQUENCIES[note[1:]]
+
+                frequency = int(frequency)
+
+                interpreted_notes.append((duration, frequency))
             else:
-                time = int(defaults[0][2:])
-
-                duration = (60.0/int(defaults[2][2:]))*(4.0/int(defaults[0][2:]))
-
-                note = str(time) + note;
-
-            if '.' in note:
-                duration = duration*1.5
-
-            note = note.replace('.', '')
-
-            if time > 10:
-                frequency = self.FREQUENCIES[note[2:]]
-            else:
-                frequency = self.FREQUENCIES[note[1:]]
-
-            frequency = int(frequency)
-
-            interpreted_notes.append((duration, frequency))
+                print note
+                interpreted_notes = []
+                break
 
         return interpreted_notes
 
-
 if __name__ == '__main__':
-    simpsons = "The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6"
+    gt = 'Dragon Ball GT:d=4,o=6,b=140:p,c,c,8a5,8a5,8c,8d,c,a5,a5,g5,a5,a5,8g5,8a5,8a5,a5,g5,f5,e5,p,8d5,8d5,f5,d,f5,8g5,8a5,a5,a5,g5,f5,g5,p,f5,e5,f5'
 
-    parser = RtttlParser(simpsons)
-    pairs = parser.parse()
+    parser = RtttlParser(gt)
 
-    print pairs
+    print parser.interpret()
