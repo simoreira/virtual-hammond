@@ -1,11 +1,23 @@
-from sound.synthesizer import Synthesizer
 from math import pi, sin
 
-class Effects(object):
-    def __init__(self):
-        self.synthesizer = Synthesizer()
+class EffectsProcessor(object):
+    def __init__(self, synthesized_data, effects = []):
+        self.data = synthesized_data
+        self.effects = effects
+        self.effects_mapping = {'percussion': self.percussion,
+                                'tremolo': self.tremolo,
+                                'echo': self.echo,
+                                'distortion': self.distortion,
+                                'chorus': self.chorus,
+                                'envelop': self.envelop
+                                }
+    
+    def process(self):
+        data_to_return = []
+        for effect in self.effects:
+            data_to_return = effects_mapping[effect]()
 
-    def tremolo(data, samples):
+    def tremolo(self, data, samples):
         effect_magnitude    = 5
         effect_frequency    = 10
         samples_per_seconds = 44100
@@ -15,7 +27,7 @@ class Effects(object):
 
         return data
 
-    def distortion(data, samples):
+    def distortion(self, data, samples):
         MAX_VALUE = 2**15 - 1 #32767
         MIN_VALUE = -MAX_VALUE - 1
         effect_magnitude = 5
@@ -31,7 +43,7 @@ class Effects(object):
 
         return data
 
-    def echo(data, samples):
+    def echo(self, data, samples):
         delay_value = 0.1
         attenuation_factor = 0.9
 
@@ -40,14 +52,10 @@ class Effects(object):
 
         return data
 
-    def chorus(data, samples):
+    def chorus(self, data, samples):
         example_freq = 15000
-
+        rate = 44100
         for i in samples:
-            data.append(samples[i]+sin(2*pi*example_freq*i/44100))
+            data.append(samples[i]+sin(2*pi*example_freq*i/rate))
 
-        return data
-
-    def none(data, samples):
-        data += samples
         return data
