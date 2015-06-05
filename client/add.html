@@ -7,6 +7,7 @@
         <meta name="author" content="Ana Cruz, Fábio Maia, Miguel Ângelo, Inês Moreira">
         <title>Virtual Hammond</title>
         <link rel="stylesheet" href="styles/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/slider.css">
         <link rel="stylesheet" href="styles/main.css">
     </head>
 
@@ -53,33 +54,65 @@
                             
                             <div>
                                 <div class="btn-group" id="form-effects" data-toggle="buttons">
-                                    <label class="btn btn-primary">
-                                        <input type="checkbox" autocomplete="off"> Echo
+                                    <label for="btn-echo" class="btn btn-primary">
+                                        <input id="btn-echo" type="checkbox"> Echo
                                     </label>
 
-                                    <label class="btn btn-primary">
-                                        <input type="checkbox" autocomplete="off"> Tremolo
+                                    <label for="btn-tremolo" class="btn btn-primary">
+                                        <input id="btn-tremolo" type="checkbox"> Tremolo
                                     </label>
 
-                                    <label class="btn btn-primary">
-                                        <input type="checkbox" autocomplete="off"> Distortion
+                                    <label for="btn-distortion" class="btn btn-primary">
+                                        <input id="btn-distortion" type="checkbox"> Distortion
                                     </label>
 
-                                    <label class="btn btn-primary">
-                                        <input type="checkbox" autocomplete="off"> Percussion
+                                    <label for="btn-percussion" class="btn btn-primary">
+                                        <input id="btn-percussion" type="checkbox"> Percussion
                                     </label>
 
-                                    <label class="btn btn-primary">
-                                        <input type="checkbox" autocomplete="off"> Chorus
+                                    <label for="btn-chorus" class="btn btn-primary">
+                                        <input id="btn-chorus" type="checkbox"> Chorus
                                     </label>
 
-                                    <label class="btn btn-primary">
-                                        <input type="checkbox" autocomplete="off"> Envelop
+                                    <label for="btn-envelop" class="btn btn-primary">
+                                        <input id="btn-envelop" type="checkbox"> Envelop
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        
+
+                        <div class="effects">
+                            <div class="form-group" id="effect-echo">
+                                <label for="slider-echo">Echo</label>
+                                <input id="slider-echo" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-tremolo">
+                                <label for="slider-tremolo">Tremolo</label>
+                                <input id="slider-tremolo" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-distortion">
+                                <label for="slider-distortion">Distortion</label>
+                                <input id="slider-distortion" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-percussion">
+                                <label for="slider-percussion">Percussion</label>
+                                <input id="slider-percussion" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-chorus">
+                                <label for="slider-chorus">Chorus</label>
+                                <input id="slider-chorus" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+
+                            <div class="form-group" id="effect-envelop">
+                                <label for="slider-envelop">Envelop</label>
+                                <input id="slider-envelop" data-slider-id="effects-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
+                            </div>
+                        </div>
+
                         <div>
                             <button type="submit" class="btn btn-primary">Add</button>
                         </div>
@@ -101,6 +134,8 @@
         </footer>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="scripts/bootstrap-slider.min.js"></script>
         <script src="scripts/bootstrap.min.js"></script>
+        <script src="scripts/main.js"></script>
     </body>
 </html>
