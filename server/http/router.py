@@ -1,11 +1,20 @@
+import os
 import cherrypy
-from http.controllers.song_controller import SongController
-from http.controllers.interpretation_controller import InterpretationController
+from http.api import Api
 
 class Router:
     def __init__(self):
-        self.song           = SongController()
-        self.interpretation = InterpretationController()
+        self.api = Api()
 
-    def cors(self):
-        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+    @cherrypy.expose
+    def index(self):
+        return open(os.path.abspath(os.path.join(os.getcwd(), '../client/index.html')), 'rb')
+
+    @cherrypy.expose
+    def add(self):
+        return open(os.path.abspath(os.path.join(os.getcwd(), '../client/add.html')), 'rb')
+
+    @cherrypy.expose
+    def list(self):
+        return open(os.path.abspath(os.path.join(os.getcwd(), '../client/list.html')), 'rb')
+
