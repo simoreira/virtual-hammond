@@ -100,6 +100,9 @@ class Synthesizer(object):
 			normalized_data.append(tmp)
 		return normalized_data
 
+####__APAGAR
+
+
 if __name__ == "__main__":
 	expected_result = [
 	(0.5625, 1046),
@@ -135,14 +138,8 @@ if __name__ == "__main__":
 	wav.setparams((1, 2, 44100, 0, 'NONE', 'not compressed'))
 
 	samples = []
+	output1 = []
 	for i in data:
-		samples.append(i['samples'])
-
-
-	wav_data = ''
-	for v in samples:
-		for i in v:
-			wav_data += pack('h', i)
-
-	wav.writeframes(wav_data)
-	wav.close()
+		output1.extend(i['samples'])
+		print len(i['samples'])
+	print len(output1)
