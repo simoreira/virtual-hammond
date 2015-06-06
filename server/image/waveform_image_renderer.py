@@ -22,7 +22,49 @@ class WaveformImageRenderer(object):
         return frequencies
 
     def draw(self):
-        plot.plot(self.durations, self.frequencies, 'ro')
+        tmp = 0.0
+        point = 0.05
+
+        for duration, frequency in zip(self.durations, self.frequencies):
+            end = tmp + duration
+            plot.hlines(frequency, tmp, end - point, 'k', linewidth = 4)
+            plot.hlines(frequency, end - point, end, 'r', linewidth = 4)
+            tmp = end - point
+
+        plot.axis('off')
 
     def save(self, filename):
-        plot.savefig(filename)
+        plot.savefig(filename, bbox_inches = 'tight')
+
+if __name__ == '__main__':
+    interpretation = [
+        (0.5625, 1046),
+        (0.3750, 1318),
+        (0.3750, 1479),
+        (0.1875, 1760),
+        (0.5625, 1567),
+        (0.3750, 1318),
+        (0.3750, 1046),
+        (0.1875, 880),
+        (0.1875, 739),
+        (0.1875, 739),
+        (0.1875, 739),
+        (0.7500, 783),
+        (0.1875, 0),
+        (0.1875, 0),
+        (0.1875, 523),
+        (0.1875, 523),
+        (0.1875, 739),
+        (0.1875, 739),
+        (0.1875, 739),
+        (0.1875, 783),
+        (0.5625, 932),
+        (0.1875, 1046),
+        (0.1875, 1046),
+        (0.1875, 1046),
+        (0.3750, 1046)
+    ]
+
+    renderer = WaveformImageRenderer(interpretation)
+    renderer.draw()
+    renderer.save('test.png')
