@@ -6,9 +6,9 @@ import cherrypy
 from http.router import Router
 
 def bootstrap():
-    # api_config = os.path.abspath(os.path.join(os.getcwd(), 'config/api.conf'))
+    api_config = os.path.abspath(os.path.join(os.getcwd(), 'config/api.conf'))
     router = Router()
-    cherrypy.quickstart(router, '/')
+    cherrypy.quickstart(router, '/', api_config)
 
 if __name__ == '__main__':
     bootstrap()

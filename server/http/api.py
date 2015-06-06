@@ -38,7 +38,7 @@ class Api(object):
 
         song_rtttl = self.song.get_song_rtttl_by_id(song_id)
 
-        wavfile_filename = str(id) + '.wav'
+        wavfile_filename = self.md5(str(id)) + '.wav'
         wav_generator = WavGenerator(song_rtttl)
         wav_generator.create(wavfile_filename)
 
@@ -51,12 +51,17 @@ class Api(object):
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def listSongFiles(self, id):
-        song_files = []
+        song_files = [[]]
 
         interpretations = self.interpretation.get_interpretations_by_song_id(id)
 
+        song_files.append()
+
+        song_files.append([])
+
         for interpretation in interpretations:
-            song_files.append(interpretation['id'] + '.wav')
+            song_files[1].append(interpretation['id'] + '.wav')
+
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
