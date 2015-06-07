@@ -71,27 +71,3 @@ class Synthesizer(object):
 			data.append(value*freq)
 		data = map(int, data)
 		return data
-
-	def normalize(self, data):
-		'''
-		Method responsible for normalizing the samples.
-		'''
-		MAX_VALUE = 2 ** 15 - 1  #32767
-		maximum = 0
-
-		for k in data:
-			for v in k:
-				if abs(v) > maximum:
-					maximum = abs(v)
-
-		if not maximum == 0:
-			normalize_factor = (float(MAX_VALUE)/ maximum)
-
-		normalized_data = []
-		tmp = []
-		for i in data:
-			tmp = []
-			for values in i:
-				tmp.append(values * normalize_factor)
-			normalized_data.append(tmp)
-		return normalized_data
