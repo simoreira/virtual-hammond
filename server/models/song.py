@@ -16,7 +16,10 @@ class Song(BaseModel):
 
         data['wave_form_file']  = 'storage/wave_form_files/' + str(self.md5(data['rtttl'])) + '.png'
 
-        self.database.query('INSERT INTO songs(rtttl, wave_form_file) VALUES(?, ?)', (data['rtttl'], data['wave_form_file']))
+        try:
+            self.database.query('INSERT INTO songs(rtttl, wave_form_file) VALUES(?, ?)', (data['rtttl'], data['wave_form_file']))
+        finally:
+            data['id'] = self.database.cursor.lastrowid
 
         return data
 

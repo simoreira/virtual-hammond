@@ -5,21 +5,29 @@ from sound.wav_generator import WavGenerator
 
 class Interpretation(BaseModel):
     def __init__(self, database):
-        self.song = Song(database)
+        self.song     = Song(database)
         self.database = database
 
     def md5(self, string):
         return hashlib.md5(string).hexdigest()
 
+    def list_to_string(self, a):
+        return ",".join(map(str, a))
+
     def create_interpretation(self, data):
-        data['wave_file'] = 'storage/wave_files/' + self.md5(data['id']) + '.wav'
+        data['wave_file'] = 'storage/wave_files/' + self.md5(str(data['song_id']) + data['registry'] + self.list_to_string(data['effects'])) + '.wav'
 
         rtttl = self.song.get_song_rtttl_by_id(data['song_id'])
         wav_generator = WavGenerator(data['song_id'], data['registry'], rtttl, data['effects'])
         wav_generator.save()
 
-        if not data['song_id'] == None and not data['registry'] == None and not data['effects'] == None and not data['wave_file'] == None:
-            self.database.query('INSERT INTO interpretations(song_id, registry, effects, wave_file, votes) VALUES(?, ?, ?, ?, ?)', (data['song_id'], data['registry'], data['effects'], data['wave_file'], data['votes']))
+        data['effects'] = self.list_to_string(data['effects'])
+
+        self.database.query('INSERT INTO interpretations(song_id, registry, effects, wave_file, votes) VALUES(?, ?, ?, ?, ?)', (data['song_id'], data['registry'], data['effects'], data['wave_file'], 0))
+
+        data['id'] = self.database.cursor.lastrowid
+
+        return data
 
     def get_all_interpretations(self):
         interpretations = self.database.fetch('SELECT * FROM interpretations')
