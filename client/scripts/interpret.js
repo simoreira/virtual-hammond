@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#interpret').on('click', function(e) {
+    $('#add').on('click', function(e) {
         e.preventDefault();
 
         var song_id = $('#song_id').val();

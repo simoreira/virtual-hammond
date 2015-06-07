@@ -40,6 +40,8 @@ class Api(object):
     @cherrypy.expose
     def create_interpretation(self, song_id, registry, effects):
         try:
+            effects = effects.split(',')
+
             if len(song_id) == 0:
                 raise Exception('Empty song ID.')
 
@@ -49,7 +51,7 @@ class Api(object):
             data = {
                 'song_id':  int(song_id),
                 'registry': str(registry),
-                'effects':  str(effects)
+                'effects':  list(effects)
             }
 
             data = self.interpretation.create_interpretation(data)

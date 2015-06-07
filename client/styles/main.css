@@ -126,6 +126,10 @@ i.fa {
     padding-bottom: 10px;
 }
 
+.song__interpret {
+    display: none;
+}
+
 /* Small devices (tablets, 768px and up) */
 @media (max-width: 768px) {
     .navbar-transparent {
