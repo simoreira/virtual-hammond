@@ -107,13 +107,11 @@ class EffectsProcessor(object):
 
 	def tremolo(self, data_to_process):
 		effect_magnitude = 0.10
-		begin = end = 0
 		frequency = 10
 
-		size = end - begin
 		size = len(data_to_process)
 
-		for i in range(size):
+		for i in xrange(size):
 			data_to_process[i] += effect_magnitude * sin(2*pi*frequency*i/self.rate) * data_to_process[i]
 
 		return data_to_process
@@ -124,15 +122,10 @@ class EffectsProcessor(object):
 		freq_variation = [20, 50]
 
 		for sample,frequency in zip(self.samples, self.frequencies):
-			begin = end + len(sample)
-			freq_to_apply = 1 - ((freq_variation[1]-freq_variation[0])/len(data_to_process))
-			x=0
-
-			for i in range(0, len(self.samples)):
-				data_to_process[i] += effect_magnitude * sin(2*pi*freq_to_apply*x/self.rate)
-				x+=1
-
-			end = begin
+			end = begin + len(sample)
+			for i in xrange(begin, end):
+				data_to_process[i] += effect_magnitude * sin(2*pi*(frequency + freq_variation[i%2])*i/self.rate)
+			begin = end
 
 		return data_to_process
 
