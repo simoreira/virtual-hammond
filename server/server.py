@@ -8,7 +8,7 @@ from http.router import Router
 from database.sqlite_database_manager import SqliteDatabaseManager
 
 def bootstrap():
-    api_config = os.path.abspath(os.path.join(os.getcwd(), 'config/server.conf'))
+    api_config = os.path.abspath(os.path.join(os.path.dirname(__file__), 'config/server.conf'))
     database_config = json.load(open('config/database.json', 'r'))
     database = SqliteDatabaseManager(database_config['dbname'])
     router = Router(database)
