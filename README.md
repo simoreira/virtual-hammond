@@ -8,40 +8,47 @@
 
 ## Installation
 
+### Python Dependencies
+
+```shell
+$ pip install cherrypy pytest matplotlib
+```
+
 ### Setup the Database
 
-```
+```shell
 $ cd bin
 $ chmod +x setup_database.sh
-$ chmod +x seed_database.sh
 $ ./setup_database.sh
+```
+
+### Seed the Database
+
+```shell
+$ cd bin
+$ chmod +x seed_database.sh
 $ ./seed_database.sh
 ```
 
+## Usage
+
 ### Start the Server
 
-```
+```shell
 $ cd server
 $ python server.py
 ```
 
 ### Run the Client
 
-Browse to http://127.0.0.1:8080
-
-```shell
-$ cd client
-$ python -m SimpleHTTPServer 1234
-```
-
-## Deploy
-
-```
-$ cd bin
-$ chmod +x deploy.sh
-$ ./deploy.sh
-```
+Browse to `http://127.0.0.1:1337`.
 
 ## Tests
 
-100% unit test coverage.
+Run all the unit tests:
+
+```shell
+$ cd bin
+$ chmod +x tests.sh
+$ ./tests.sh
+```
