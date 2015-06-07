@@ -26,19 +26,11 @@ class Api(object):
             if len(rtttl) == 0:
                 raise Exception('Empty RTTTL string.')
 
-            wave_form_file = self.md5(rtttl)
-
             data = {
-                'rtttl': str(rtttl),
-                'wave_form_file': 'storage/wave_form_files/' + str(wave_form_file) + '.png'
+                'rtttl': str(rtttl)
             }
 
-            song_interpretation = RtttlParser(rtttl).interpret()
-            renderer = WaveformImageRenderer(song_interpretation)
-            renderer.draw()
-            renderer.save(wave_form_file)
-
-            self.song.create_song(data)
+            data = self.song.create_song(data)
 
             return self.respond_success(data = data)
         except Exception as e:
@@ -46,22 +38,21 @@ class Api(object):
 
     @cherrypy.tools.json_out()
     @cherrypy.expose
-    def create_interpretation(self, id, registry, effects):
+    def create_interpretation(self, song_id, registry, effects):
         try:
+            if len(song_id) == 0:
+                raise Exception('Empty song ID.')
+
+            if len(registry) == 0:
+                raise Exception('Empty registry.')
+
             data = {
-                'song_id':  int(id),
+                'song_id':  int(song_id),
                 'registry': str(registry),
-                'effects':  str(effects),
-                'wave_file': 'storage/wave_files/' + self.md5(str(id)) + '.wav'
+                'effects':  str(effects)
             }
 
-            self.interpretation.create_interpretation(data)
-
-            song_rtttl = self.song.get_song_rtttl_by_id(song_id)
-
-            wave_file = self.md5(str(id))
-            wav_generator = WavGenerator(registry, song_rtttl, effects)
-            wav_generator.create(wave_file)
+            data = self.interpretation.create_interpretation(data)
 
             return self.respond_success(data = data)
         except Exception as e:
@@ -144,9 +135,7 @@ class Api(object):
     def submit_vote(self, id, vote):
         try:
             vote = int(vote)
-
             self.interpretation.update_interpretation_votes_by_id(id, vote)
-
             return self.respond_success()
         except Exception as e:
             return self.respond_failure(str(e))

@@ -1,11 +1,5 @@
 # Virtual Hammond
 
-## TODO
-
-1. Make list of pip dependencies
-2. Make helpers class
-3. remove whitespace from rtttl string
-
 ## Installation
 
 ### Python Dependencies

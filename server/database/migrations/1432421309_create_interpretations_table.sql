@@ -4,7 +4,7 @@ CREATE TABLE interpretations(
     registry TEXT,
     effects TEXT,
     wave_file TEXT UNIQUE,
-    votes INTEGER,
+    votes INTEGER DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

@@ -1,24 +1,31 @@
-import matplotlib.pyplot as plot
 import os
+import hashlib
+import matplotlib.pyplot as plot
+from sound.rtttl_parser import RtttlParser
 
 class WaveformImageRenderer(object):
-    def __init__(self, interpretations):
-        self.durations   = self.get_durations(interpretations)
-        self.frequencies = self.get_frequencies(interpretations)
+    def __init__(self, rtttl):
+        self.rtttl          = rtttl
+        self.interpretation = RtttlParser(rtttl).interpret()
+        self.durations      = self.get_durations()
+        self.frequencies    = self.get_frequencies()
 
-    def get_durations(self, interpretations):
+    def md5(self, string):
+        return hashlib.md5(string).hexdigest()
+
+    def get_durations(self):
         durations = []
 
-        for interpretation in interpretations:
-            durations.append(interpretation[0])
+        for element in self.interpretation:
+            durations.append(element[0])
 
         return durations
 
-    def get_frequencies(self, interpretations):
+    def get_frequencies(self):
         frequencies = []
 
-        for interpretation in interpretations:
-            frequencies.append(interpretation[1])
+        for element in self.interpretation:
+            frequencies.append(element[1])
 
         return frequencies
 
@@ -34,14 +41,11 @@ class WaveformImageRenderer(object):
 
         plot.axis('off')
 
-    def save(self, filename):
-        filename = os.path.abspath(os.path.join(os.path.dirname(__file__), '../storage/wave_form_files/' + filename + '.png'))
+    def md5(self, string):
+        return hashlib.md5(string).hexdigest()
+
+    def save(self):
+        self.draw()
+
+        filename = os.path.abspath(os.path.join(os.path.dirname(__file__), '../storage/wave_form_files/' + self.md5(self.rtttl) + '.png'))
         plot.savefig(filename, bbox_inches = 'tight')
-
-if __name__ == '__main__':
-    interpretation = [(0.5625, 1046), (0.375, 1318), (0.375, 1479), (0.1875, 1760), (0.5625, 1567), (0.375, 1318), (0.375, 1046), (0.1875, 880), (0.1875, 739), (0.1875, 739), (0.1875, 739), (0.75, 783), (0.1875, 0), (0.1875, 0), (0.1875, 739), (0.1875, 739), (0.1875, 739), (0.1875, 783), (0.5625, 932), (0.1875, 1046), (0.1875, 1046), (0.1875, 1046), (0.375, 1046)]
-
-    renderer = WaveformImageRenderer(interpretation)
-
-    renderer.draw()
-    renderer.save('test')
