@@ -1,15 +1,149 @@
 body {
-	padding-top: 60px;
+    line-height: 1.7;
+    padding-top: 60px;
 }
 
-#effects-slider .slider-selection {
-	background: #BABABA;
+.body--index {
+    padding-top: 0;
 }
+
+::-moz-selection{
+    color: #FFF;
+    text-shadow: none;
+    background: #18bc9c;
+}
+
+::selection{
+    color: #FFF;
+    text-shadow: none;
+    background: #18bc9c;
+}
+
+body {
+    webkit-tap-highlight-color: #18bc9c;
+}
+
+
+
 
 .container {
 	padding: 0 40px;
 }
 
-.effects label {
-	margin-right: 20px;
+/* Effects */
+
+#effects-slider .slider-selection {
+    background: #BABABA;
+}
+
+/* Footer */
+
+.header {
+
+}
+
+.header--index {
+    color: #fff;
+    background:
+        linear-gradient(
+            rgba(20, 156, 130, 0.85),
+            rgba(20, 156, 130, 0.85)
+        ),
+        url("../images/bg.jpg");
+}
+
+.body--404 .footer {
+    margin: 0;
+}
+
+.jumbotron {
+    margin-bottom: 0;
+}
+
+.jumbotron--index {
+    padding: 120px 0;
+    background: transparent;
+}
+
+/* Navbar */
+
+.navbar-transparent { background-color: transparent; }
+.navbar-transparent .navbar-nav > .open > a { background-color: transparent !important; }
+
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+}
+
+i.fa {
+    margin-right: 10px;
+}
+
+.main {
+    padding-top: 40px;
+}
+
+/* Footer */
+
+.footer {
+    padding: 30px 0;
+    margin-top: 90px;
+    background-color: #ecf0f1;
+    color: inherit;
+}
+
+.footer__nav {
+    margin-bottom: 20px;
+}
+
+    .footer__nav ul {
+        padding: 0;
+    }
+
+    .footer__nav li {
+        list-style-type: none;
+    }
+
+
+/* Add Page */
+
+.song__title {
+    margin-left: 15px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.song__image {
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #cccccc;
+    margin-bottom: 10px;
+}
+
+/* Songs Page */
+
+#song {
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+    .navbar-transparent {
+        background-color: #149C82;
+    }
+
+    .btn {
+        display: block;
+        margin-bottom: 10px;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
 }

@@ -5,15 +5,15 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="Ana Cruz, Fábio Maia, Miguel Ângelo, Inês Moreira">
-        <title>Virtual Hammond</title>
+        <title>About</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="styles/bootstrap.min.css">
         <link rel="stylesheet" href="styles/main.css">
     </head>
 
-    <body class="body--index">
-        <header class="header header--index">
-            <nav class="navbar navbar-inverse navbar-transparent navbar-fixed-top" role="navigation">
+    <body>
+        <header class="header">
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -29,6 +29,7 @@
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li><a href="songs"><i class="fa fa-book"></i>Songs</a></li>
+                            <li><a href="interpretations"><i class="fa fa-music"></i>Interpretations</a></li>
                             <li><a href="add"><i class="fa fa-plus-circle"></i>Add Song</a></li>
                             <li><a href="interpret"><i class="fa fa-gear"></i>Interpret Song</a></li>
                         </ul>
@@ -37,9 +38,9 @@
 
             </nav>
 
-            <div class="jumbotron jumbotron--index">
+            <div class="jumbotron">
                 <div class="container">
-                    <h1>Virtual Hammond</h1>
+                    <h1>About</h1>
 
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                 </div>
@@ -48,9 +49,31 @@
 
         <main role="main">
             <div class="container">
-                <h1>Hammond Organ</h1>
+                <h2>Who Are We</h2>
 
-                <p>Um órgão Hammond é um instrumento musical criado no século passado (cerca de 1934) para ser utilizado em igrejas, mas acabando por ser um dos órgãos elétricos com maior impacto na produção musical Rock, Jazz e Blues, estando presente em muitas músicas conhecidas. Internamente ele era composto por cilindros rotativos capazes de produzir tons praticamente puros, sendo portanto designados por osciladores. Um órgão permitia utilizar até 9 osciladores em simultâneo, cada um produzindo frequências que variam com a nota tocada pelo intérprete. O som produzido consiste na soma das 9 frequências. Em particular, um oscilador irá reproduzir a frequência indicada pela nota, sendo que os seguintes irão produzir frequências múltiplas da nota.</p>
+                <p>We are four <a href="http://www.ua.pt/ensino/PageCourse.aspx?id=23">Computer and Telematics Engineering</a> students from the <a href="http://www.ua.pt/">University of Aveiro</a>.</p>
+
+                <ul>
+                    <li><a href="mailto:anapatriciacruz@ua.pt">Ana Cruz</a> is 19 years old and is from Cantanhede, Aveiro.</li>
+                    <li><a href="mailto:fabio.maia@ua.pt">Fábio Maia</a> is 19 years old and is from Gafanha da Nazaré, Aveiro.</li>
+                    <li><a href="mailto:maps@ua.pt">Miguel Ângelo</a> is 19 years old and is from Albergaria-a-velha, Aveiro.</li>
+                    <li><a href="mailto:simoreira@ua.pt">Inês Moreira</a> is 18 years old and is from Penafiel, Oporto.</li>
+                </ul>
+
+                <h2>Goal</h2>
+
+                <p>This is the second semester's project in <a href="http://www.ua.pt/PageDisc.aspx?id=11494">Informatics Lab</a>. Our goal is to develop a web application that allows users to provide a song's RTTTL specification, an organ registry and sound effects to generate an interpretation of a song.</p>
+
+                <h2>Technology Stack</h2>
+
+                <ul>
+                    <li>The CherryPy framework is used to serve the JSON API and the client web interface.</li>
+                    <li>The matplotlib library is used to create a PNG image of the representation of a song's interpretation.</li>
+                    <li>The wave and struct libraries are used to generate the WAV files of a song's interpretation.</li>
+                    <li>The jQuery library is used to make HTTP requests to the API and handle the responses.</li>
+                    <li>The Vue.js library is used to build the web interface from the API responses.</li>
+                    <li>The Bootstrap framework is used to build the web interface using HTML and CSS components.</li>
+                </ul>
             </div>
         </main>
 
@@ -74,6 +97,5 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="scripts/bootstrap.min.js"></script>
         <script src="scripts/main.js"></script>
-        <script src="scripts/index.js"></script>
     </body>
 </html>
