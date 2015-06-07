@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plot
+import os
 
 class WaveformImageRenderer(object):
     def __init__(self, interpretations):
@@ -34,37 +35,13 @@ class WaveformImageRenderer(object):
         plot.axis('off')
 
     def save(self, filename):
+        filename = os.path.abspath(os.path.join(os.path.dirname(__file__), '../storage/wave_form_files/' + filename + '.png'))
         plot.savefig(filename, bbox_inches = 'tight')
 
 if __name__ == '__main__':
-    interpretation = [
-        (0.5625, 1046),
-        (0.3750, 1318),
-        (0.3750, 1479),
-        (0.1875, 1760),
-        (0.5625, 1567),
-        (0.3750, 1318),
-        (0.3750, 1046),
-        (0.1875, 880),
-        (0.1875, 739),
-        (0.1875, 739),
-        (0.1875, 739),
-        (0.7500, 783),
-        (0.1875, 0),
-        (0.1875, 0),
-        (0.1875, 523),
-        (0.1875, 523),
-        (0.1875, 739),
-        (0.1875, 739),
-        (0.1875, 739),
-        (0.1875, 783),
-        (0.5625, 932),
-        (0.1875, 1046),
-        (0.1875, 1046),
-        (0.1875, 1046),
-        (0.3750, 1046)
-    ]
+    interpretation = [(0.5625, 1046), (0.375, 1318), (0.375, 1479), (0.1875, 1760), (0.5625, 1567), (0.375, 1318), (0.375, 1046), (0.1875, 880), (0.1875, 739), (0.1875, 739), (0.1875, 739), (0.75, 783), (0.1875, 0), (0.1875, 0), (0.1875, 739), (0.1875, 739), (0.1875, 739), (0.1875, 783), (0.5625, 932), (0.1875, 1046), (0.1875, 1046), (0.1875, 1046), (0.375, 1046)]
 
     renderer = WaveformImageRenderer(interpretation)
+
     renderer.draw()
-    renderer.save('test.png')
+    renderer.save('test')
