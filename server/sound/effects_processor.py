@@ -57,10 +57,12 @@ class EffectsProcessor(object):
 		return output
 
 	#values passed in?!
-	def distortion(self, effect_magnitude):
+	def distortion(self):
+		output = self.merge_samples(self.samples)
+
 		MAX_VALUE = 2**15 - 1 #32767
 		MIN_VALUE = -MAX_VALUE - 1
-		output = self.merge_samples(self.samples)
+		effect_magnitude = 3
 
 		for i in range(0, len(output)):
 			value = output[i]**effect_magnitude
@@ -75,10 +77,11 @@ class EffectsProcessor(object):
 		return output
 
 	#values passed in?!
-	def echo(self, effect_magnitude):
-		delay_value = effect_magnitude
-		attenuation_factor = 0.5
+	def echo(self):
 		output = self.merge_samples(self.samples)
+
+		delay_value = 0.4
+		attenuation_factor = 0.8
 
 		#aplicacao do eco
 		for i in range(0, len(output)):
@@ -91,9 +94,11 @@ class EffectsProcessor(object):
 		return output
 
 	#values passed in?!
-	def tremolo(self, effect_magnitude):
-		begin = end = 0
+	def tremolo(self):
 		output = self.merge_samples(self.samples)
+
+		effect_magnitude = 0.05
+		begin = end = 0
 
 		for sample,frequency in zip(self.samples, self.frequencies):
 
@@ -107,10 +112,11 @@ class EffectsProcessor(object):
 		return output
 
 	#values passed in?!      
-	def chorus(self, effect_magnitude):
+	def chorus(self):
 		output = self.merge_samples(self.samples)
-		begin = end = 0
 
+		begin = end = 0
+		effect_magnitude = 10
 		freq_variation = [20, 50]
 
 		for sample,frequency in zip(self.samples, self.frequencies):
@@ -127,14 +133,13 @@ class EffectsProcessor(object):
 
 		return output
 
-	def percussion(self, effect_magnitude):
+	def percussion(self):
 		output = self.merge_samples(self.samples)
+
 		begin = end = 0
-
-
+		effect_magnitude = 50
 		time = 1
 		multiplier = 5
-
 
 		for sample,frequency in zip(self.samples, self.frequencies):
 

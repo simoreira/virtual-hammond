@@ -1,6 +1,5 @@
 from math import sin, pi
 import wave
-from struct import pack
 
 class Synthesizer(object):
 	def __init__(self, interpreter_list, organ_registry):
