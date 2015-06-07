@@ -1,5 +1,4 @@
 from math import sin, pi
-import wave
 
 class Synthesizer(object):
 	def __init__(self, interpreter_list, organ_registry):
@@ -38,10 +37,8 @@ class Synthesizer(object):
 		for i in range(0, len(self.interpreter_list)):
 			output_samples.append(self.get_samples(self.organ_registry_list, self.durations[i], self.frequencies[i]))
 
-		normalized_output_samples = self.normalize(output_samples)
-
 		for i in range(0, len(self.interpreter_list)):
-			output.append({'freq': self.frequencies[i], 'samples': normalized_output_samples[i]})
+			output.append({'freq': self.frequencies[i], 'samples': output_samples[i]})
 
 		return output
 
@@ -98,47 +95,3 @@ class Synthesizer(object):
 				tmp.append(values * normalize_factor)
 			normalized_data.append(tmp)
 		return normalized_data
-
-####__APAGAR
-
-
-if __name__ == "__main__":
-	expected_result = [
-	(0.5625, 1046),
-	(0.3750, 1318),
-	(0.3750, 1479),
-	(0.1875, 1760),
-	(0.5625, 1567),
-	(0.3750, 1318),
-	(0.3750, 1046),
-	(0.1875, 880),
-	(0.1875, 739),
-	(0.1875, 739),
-	(0.1875, 739),
-	(0.7500, 783),
-	(0.1875, 0),
-	(0.1875, 0),
-	(0.1875, 523),
-	(0.1875, 523),
-	(0.1875, 739),
-	(0.1875, 739),
-	(0.1875, 739),
-	(0.1875, 783),
-	(0.5625, 932),
-	(0.1875, 1046),
-	(0.1875, 1046),
-	(0.1875, 1046),
-	(0.3750, 1046)
-]
-	a = Synthesizer(expected_result, "888888888")
-	data = a.synthesize()
-
-	wav = wave.open("test123.wav", 'w')
-	wav.setparams((1, 2, 44100, 0, 'NONE', 'not compressed'))
-
-	samples = []
-	output1 = []
-	for i in data:
-		output1.extend(i['samples'])
-		print len(i['samples'])
-	print len(output1)
