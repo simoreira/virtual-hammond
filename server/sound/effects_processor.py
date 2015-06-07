@@ -134,18 +134,25 @@ class EffectsProcessor(object):
 		effect_magnitude = 100
 		time = 1
 		multiplier = 10
-
+		was_pause= True;
 		for sample,frequency in zip(self.samples, self.frequencies):
-			begin = end + len(sample)
+			end = begin + len(sample)
 
-			if self.silence(sample) or self.samples.index(sample) == 0:
+			if was_pause:
 				x = 0
 				for i in range(begin, end):
 					if(x < time*self.rate):
-						data_to_process[i] += effect_magnitude*(1-((1.0/(time*self.rate))*x))*sin(2*pi*multiplier*frequency*w/rate)
+						data_to_process[i] += effect_magnitude*(1-((1.0/(time*self.rate))*x))*sin(2*pi*multiplier*frequency*x/self.rate)
 					x+=1
 
-			end = begin
+				if frequency:
+					was_pause = False
+				else:
+					was_pause = True
+
+			if not frequency:
+				was_pause = True
+			begin = end
 
 		return data_to_process
 
