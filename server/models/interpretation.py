@@ -15,7 +15,7 @@ class Interpretation(BaseModel):
         data['wave_file'] = 'storage/wave_files/' + self.md5(data['id']) + '.wav'
 
         rtttl = self.song.get_song_rtttl_by_id(data['song_id'])
-        wav_generator = WavGenerator(data['registry'], rtttl, data['effects'])
+        wav_generator = WavGenerator(data['song_id'], data['registry'], rtttl, data['effects'])
         wav_generator.save()
 
         if not data['song_id'] == None and not data['registry'] == None and not data['effects'] == None and not data['wave_file'] == None:

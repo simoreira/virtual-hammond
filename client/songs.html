@@ -5,15 +5,15 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="Ana Cruz, Fábio Maia, Miguel Ângelo, Inês Moreira">
-        <title>Virtual Hammond</title>
+        <title>Songs List</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="styles/bootstrap.min.css">
         <link rel="stylesheet" href="styles/main.css">
     </head>
 
-    <body class="body--index">
-        <header class="header header--index">
-            <nav class="navbar navbar-inverse navbar-transparent navbar-fixed-top" role="navigation">
+    <body>
+        <header class="header">
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -28,29 +28,35 @@
 
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href="songs"><i class="fa fa-book"></i>Songs</a></li>
+                            <li class="active"><a href="songs"><i class="fa fa-book"></i>Songs</a></li>
                             <li><a href="add"><i class="fa fa-plus-circle"></i>Add Song</a></li>
                             <li><a href="interpret"><i class="fa fa-gear"></i>Interpret Song</a></li>
                         </ul>
                     </div>
                 </div>
-
             </nav>
-
-            <div class="jumbotron jumbotron--index">
-                <div class="container">
-                    <h1>Virtual Hammond</h1>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                </div>
-            </div>
         </header>
 
-        <main role="main">
+        <main class="main" role="main">
             <div class="container">
-                <h1>Hammond Organ</h1>
+                <div id="songs">
+                    <div id="song" v-repeat="songs" class="row well">
+                        <h3 class="song__title">{{ rtttl.split(':')[0] }}</h3>
 
-                <p>Um órgão Hammond é um instrumento musical criado no século passado (cerca de 1934) para ser utilizado em igrejas, mas acabando por ser um dos órgãos elétricos com maior impacto na produção musical Rock, Jazz e Blues, estando presente em muitas músicas conhecidas. Internamente ele era composto por cilindros rotativos capazes de produzir tons praticamente puros, sendo portanto designados por osciladores. Um órgão permitia utilizar até 9 osciladores em simultâneo, cada um produzindo frequências que variam com a nota tocada pelo intérprete. O som produzido consiste na soma das 9 frequências. Em particular, um oscilador irá reproduzir a frequência indicada pela nota, sendo que os seguintes irão produzir frequências múltiplas da nota.</p>
+                        <div id="song-waveform" class="col-md-2">
+                            <a href="{{ wave_form_file }}">
+                                <img class="song__image image image-responsive" src="{{ wave_form_file }}">
+                            </a>
+                        </div>
+
+                        <div class="col-md-10">
+                            <pre id="song-rtttl">{{ rtttl }}</pre>
+
+                            <button id="interpret" class="btn btn-primary"><i class="fa fa-gear"></i>Interpret Song</button>
+                            <button id="interpret" class="btn btn-primary"><i class="fa fa-music"></i>Interpretations of this Song</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -73,7 +79,8 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="scripts/bootstrap.min.js"></script>
+        <script src="scripts/vue.js"></script>
         <script src="scripts/main.js"></script>
-        <script src="scripts/index.js"></script>
+        <script src="scripts/songs.js"></script>
     </body>
 </html>

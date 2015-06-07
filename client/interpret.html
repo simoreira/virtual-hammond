@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="Ana Cruz, Fábio Maia, Miguel Ângelo, Inês Moreira">
-        <title>Add Song</title>
+        <title>Interpret Song</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="styles/bootstrap.min.css">
         <link rel="stylesheet" href="styles/main.css">
@@ -29,26 +29,63 @@
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li><a href="songs"><i class="fa fa-book"></i>Songs</a></li>
-                            <li class="active"><a href="add"><i class="fa fa-plus-circle"></i>Add Song</a></li>
-                            <li><a href="interpret"><i class="fa fa-gear"></i>Interpret Song</a></li>
+                            <li><a href="add"><i class="fa fa-plus-circle"></i>Add Song</a></li>
+                            <li class="active"><a href="interpret"><i class="fa fa-gear"></i>Interpret Song</a></li>
                         </ul>
                     </div>
                 </div>
             </nav>
         </header>
 
-        <main class="main" role="main">
+        <main role="main">
             <div class="container">
                 <div class="form">
-                    <h1>Add Song</h1>
+                    <h1>Interpret Song</h1>
 
                     <div class="form-group">
-                        <label for="rtttl">RTTTL</label>
-                        <input type="text" class="form-control" id="rtttl" name="rtttl" placeholder="The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6" required>
+                        <label for="song_id">Song ID</label>
+                        <input type="number" min="1" class="form-control" id="song_id" name="song_id" placeholder="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registry">Registry</label>
+                        <input type="number" class="form-control" id="registry" pattern=".{9,}" min="000000000" max="888888888" name="registry" placeholder="888888888" required value="888888888">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="effects">Effects</label>
+
+                        <div class="effects">
+                            <div class="btn-group" id="effects" data-toggle="buttons">
+                                <label for="btn-echo" class="btn btn-default">
+                                    <input id="btn-echo" type="checkbox" name="effects" value="echo"> Echo
+                                </label>
+
+                                <label for="btn-tremolo" class="btn btn-default">
+                                    <input id="btn-tremolo" type="checkbox" name="effects" value="tremolo"> Tremolo
+                                </label>
+
+                                <label for="btn-distortion" class="btn btn-default">
+                                    <input id="btn-distortion" type="checkbox" name="effects" value="distortion"> Distortion
+                                </label>
+
+                                <label for="btn-percussion" class="btn btn-default">
+                                    <input id="btn-percussion" type="checkbox" name="effects" value="percussion"> Percussion
+                                </label>
+
+                                <label for="btn-chorus" class="btn btn-default">
+                                    <input id="btn-chorus" type="checkbox" name="effects" value="chorus"> Chorus
+                                </label>
+
+                                <label for="btn-envelop" class="btn btn-default">
+                                    <input id="btn-envelop" type="checkbox" name="effects"  value="envelop"> Envelop
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     <div>
-                        <button class="btn btn-primary" id="add">Add</button>
+                        <button class="btn btn-primary" id="interpret">Interpret</button>
                     </div>
                 </div>
             </div>
@@ -74,6 +111,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="scripts/bootstrap.min.js"></script>
         <script src="scripts/main.js"></script>
-        <script src="scripts/add.js"></script>
+        <script src="scripts/interpret.js"></script>
     </body>
 </html>
