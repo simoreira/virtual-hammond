@@ -121,13 +121,7 @@ class RtttlParser(object):
         octave   = self.get_note_octave(note)
         pitch    = self.get_note_pitch(note)
 
-<<<<<<< HEAD
         if (duration in self.ALLOWED_DURATIONS) and (octave in self.ALLOWED_OCTAVES) and (pitch in self.ALLOWED_PITCHES):
-=======
-        if not ((duration in self.ALLOWED_DURATIONS) and (octave in self.ALLOWED_OCTAVES) and (pitch in self.ALLOWED_PITCHES)):
-            return False
-        else:
->>>>>>> ad1e0850ba898a2e12e2982ffdd585a12e42d290
             return True
         else:
             return False
@@ -142,13 +136,8 @@ class RtttlParser(object):
         interpretation = []
         time = 0
 
-<<<<<<< HEAD
         if self.is_valid_defaults(defaults):
             for note in notes:
-=======
-        for note in notes:
-            if self.is_valid_defaults(defaults):
->>>>>>> ad1e0850ba898a2e12e2982ffdd585a12e42d290
                 if self.is_valid_note(note):
                     time = float(self.get_note_duration(note))
 
@@ -158,7 +147,7 @@ class RtttlParser(object):
                         duration *= 1.5
                         note = note.replace('.', '')
 
-                    duration  = float(duration)
+                    duration  = round(float(duration), 4)
                     frequency = int(self.FREQUENCIES[str(self.get_note_pitch(note) + self.get_note_octave(note))])
 
                     interpretation.append((duration, frequency))
@@ -169,3 +158,6 @@ class RtttlParser(object):
             raise Exception('Invalid defaults')
 
         return interpretation
+
+if __name__ == '__main__':
+    print RtttlParser('Dragon Ball GT:d=4,o=6,b=140:p,c,c,8a5,8a.5,8c,8d,c,a.5,a5,g5,a5,a5,8g5,8a5,8a.5,a5,g5,f5,e5,p,8d5,8d5,f5,d,f5,8g5,8a5,a.5,a5,g5,f5,g5,p,f5,e5,f5').interpret()
