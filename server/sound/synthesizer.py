@@ -10,13 +10,13 @@ class Synthesizer(object):
 	def get_durations(self, interpreter_list):
 		durations = []
 		for i in range(0, len(interpreter_list)):
-			durations.append(interpreter_list[i][0])	
+			durations.append(interpreter_list[i][0])
 		return durations
 
 	def get_frequencies(self, interpreter_list):
 		frequencies = []
 		for i in range(0, len(interpreter_list)):
-			frequencies.append(interpreter_list[i][1])	
+			frequencies.append(interpreter_list[i][1])
 		return frequencies
 
 	def get_organ_registry(self, organ_registry):

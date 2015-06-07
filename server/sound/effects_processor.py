@@ -1,30 +1,34 @@
 from math import pi, sin
 
 class EffectsProcessor(object):
-	def __init__(self, synthesized_data, effects = ['none']):
+	def __init__(self, synthesized_data, effects = []):
 		self.data = synthesized_data
 		self.effects = effects
 		self.rate = 44100
-		self.effects_mapping = {'percussion': self.percussion,
-								'tremolo': self.tremolo,
-								'echo': self.echo,
-								'none': self.none,
-								'distortion': self.distortion,
-								'chorus': self.chorus,
-								'envelop': self.envelop
-								}
 		self.samples = self.get_samples(synthesized_data)
 		self.frequencies = self.get_frequencies(synthesized_data)
-	####################_MAIN FUNCTION_#################
+		self.effects_mapping = {
+			'percussion': self.percussion,
+			'tremolo': self.tremolo,
+			'echo': self.echo,
+			'none': self.none,
+			'distortion': self.distortion,
+			'chorus': self.chorus,
+			'envelop': self.envelop
+		}
+
 	def process(self):
 		data_to_process = self.merge_samples(self.samples)
 		data_to_return = []
+
+		if self.effects == []:
+			self.effects = ['none']
+
 		for effect in self.effects:
 			data_to_return = self.effects_mapping[effect](data_to_process)
 
 		data_to_return = self.normalize(data_to_return)
 		return data_to_return
-	####################################################
 
 	def get_samples(self, synthesized_data):
 		samples = []
@@ -67,7 +71,6 @@ class EffectsProcessor(object):
 
 		return normalized_data
 
-	#####################_EFFECTS_######################
 	def none(self, data_to_process):
 		return data_to_process
 
@@ -92,7 +95,7 @@ class EffectsProcessor(object):
 		delay_value = 0.3
 		attenuation_factor = 0.5
 
-		#aplicacao do eco
+		# Application of echo
 		for i in range(0, len(data_to_process)):
 			delay = int(i + delay_value*self.rate)
 
@@ -107,27 +110,27 @@ class EffectsProcessor(object):
 		begin = end = 0
 
 		for sample,frequency in zip(self.samples, self.frequencies):
-
 			begin = end + len(sample)
 			x = 0
+
 			for i in range(begin, end):
 				data_to_process[i] += effect_magnitude * sin(2*pi*frequency*x/self.rate) * data_to_process[i]
 				x += 1
 
 			end = begin
+
 		return data_to_process
-     
+
 	def chorus(self, data_to_process):
 		begin = end = 0
 		effect_magnitude = 10
 		freq_variation = [20, 50]
 
 		for sample,frequency in zip(self.samples, self.frequencies):
-
 			begin = end + len(sample)
 			freq_to_apply = 1 - ((freq_variation[1]-freq_variation[0])/len(data_to_process))
-
 			x=0
+
 			for i in range(0, len(self.samples)):
 				data_to_process[i] += effect_magnitude * sin(2*pi*freq_to_apply*x/self.rate)
 				x+=1
@@ -143,7 +146,6 @@ class EffectsProcessor(object):
 		multiplier = 10
 
 		for sample,frequency in zip(self.samples, self.frequencies):
-
 			begin = end + len(sample)
 
 			if self.silence(sample) or self.samples.index(sample) == 0:
@@ -151,7 +153,6 @@ class EffectsProcessor(object):
 				for i in range(begin, end):
 					if(x < time*self.rate):
 						data_to_process[i] += effect_magnitude*(1-((1.0/(time*self.rate))*x))*sin(2*pi*multiplier*frequency*w/rate)
-
 					x+=1
 
 			end = begin
