@@ -57,16 +57,6 @@ class TestRtttlParser(object):
 
         assert result == expected_result
 
-    def test_get_note_duration(self):
-        parser = RtttlParser(self.SONG['rtttl'])
-
-        result = parser.get_note_elements('4c#.7')
-
-        expected_result = ('4', 'c#', '.', '7')
-
-        assert result == expected_result
-
-
     def test_get_note_pitch(self):
         parser = RtttlParser(self.SONG['rtttl'])
 
