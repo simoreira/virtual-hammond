@@ -1,6 +1,10 @@
 from sound.synthesizer import Synthesizer
 
 class TestSynthesizer(object):
+	DATA = {
+	
+	}
+
 	def test_get_mult_freq(self):
 		parser = Synthesizer()
 		cases = [
