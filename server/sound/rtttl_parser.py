@@ -9,21 +9,25 @@ class RtttlParser(object):
     ALLOWED_PITCHES   = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b', 'h', 'p']
 
     def __init__(self, rtttl):
-        self.rtttl = self.remove_all_whitespace(rtttl)
+        self.rtttl       = rtttl
         self.rtttl_parts = self.get_rtttl_parts()
         self.name        = self.get_name()
         self.defaults    = self.get_defaults()
         self.notes       = self.get_notes()
 
+    def remove_all_whitespace(self, string):
+        return string.replace(" ", "")
+
     def get_rtttl_parts(self):
         rtttl_parts = self.rtttl.split(':')
+
 
         if (len(rtttl_parts) != 3) or (len(rtttl_parts[0]) == 0 or len(rtttl_parts[1]) == 0 or len(rtttl_parts[2]) == 0):
             raise Exception('Invalid RTTTL string.')
         else:
+            rtttl_parts[1] = self.remove_all_whitespace(rtttl_parts[1])
+            rtttl_parts[2] = self.remove_all_whitespace(rtttl_parts[2])
             return rtttl_parts
-    def remove_all_whitespace(self, string):
-        return string.replace(" ", "")
 
     def get_name(self):
         return self.rtttl_parts[0]
@@ -41,12 +45,12 @@ class RtttlParser(object):
             return True
 
     def all_defaults(self, defaults):
-        if len(defaults) < 3:    
+        if len(defaults) < 3:
             if len(defaults) == 1 and defaults[0][0] == 'd':
                 defaults.append('o=6')
                 defaults.append('b=63')
                 return defaults
-                
+
             if len(defaults) == 1 and defaults[0][0] == 'o':
                 defaults[:0] = 'd=4'
                 defaults = self.defaults.append('b=63')
@@ -116,7 +120,7 @@ class RtttlParser(object):
         duration = self.get_note_duration(note)
         octave   = self.get_note_octave(note)
         pitch    = self.get_note_pitch(note)
-        
+
         if not ((duration in self.ALLOWED_DURATIONS) and (octave in self.ALLOWED_OCTAVES) and (pitch in self.ALLOWED_PITCHES)):
             return False
         else:
@@ -133,7 +137,7 @@ class RtttlParser(object):
         time = 0
 
         for note in notes:
-            if self.is_valid_defaults(defaults):    
+            if self.is_valid_defaults(defaults):
                 if self.is_valid_note(note):
                     if note[0].isdigit():
                         time = int(note[0])
