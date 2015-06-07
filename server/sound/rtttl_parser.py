@@ -9,7 +9,7 @@ class RtttlParser(object):
     ALLOWED_PITCHES   = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b', 'h', 'p']
 
     def __init__(self, rtttl):
-        self.rtttl       = rtttl
+        self.rtttl = self.remove_all_whitespace(rtttl)
         self.rtttl_parts = self.get_rtttl_parts()
         self.name        = self.get_name()
         self.defaults    = self.get_defaults()
@@ -22,6 +22,8 @@ class RtttlParser(object):
             raise Exception('Invalid RTTTL string.')
         else:
             return rtttl_parts
+    def remove_all_whitespace(self, string):
+        return string.replace(" ", "")
 
     def get_name(self):
         return self.rtttl_parts[0]
@@ -38,7 +40,39 @@ class RtttlParser(object):
         else:
             return True
 
+    def all_defaults(self, defaults):
+        if len(defaults) < 3:    
+            if len(defaults) == 1 and defaults[0][0] == 'd':
+                defaults.append('o=6')
+                defaults.append('b=63')
+                return defaults
+                
+            if len(defaults) == 1 and defaults[0][0] == 'o':
+                defaults[:0] = 'd=4'
+                defaults = self.defaults.append('b=63')
+                return defaults
+
+            if len(defaults) == 1 and defaults[0][0] == 'b':
+               defaults[:0] = 'o=5'
+               defaults[:0] = 'd=4'
+               return defaults
+
+            if len(defaults) == 2 and defaults[0][0] == 'd' and defaults[1][0] == 'o':
+               defaults.append('b=63')
+               return defaults
+
+            if len(defaults) == 2 and defaults[0][0] == 'd' and defaults[1][0] == 'b':
+               defaults.insert(1, 'o=5')
+               return defaults
+
+            if len(defaults) == 2 and defaults[0][0] == 'o' and defaults[1][0] == 'b':
+               defaults[:0] = 'd=4'
+               return defaults
+        return defaults
+
     def is_valid_defaults(self, defaults):
+        defaults = self.all_defaults(defaults)
+
         duration = defaults[0]
         octave   = defaults[1]
         bpm      = defaults[2]
@@ -47,7 +81,7 @@ class RtttlParser(object):
             print 'false duration'
             return False
 
-        if not ((octave[0] == 'o') and (octave[1] == '=') and (octave[2] in self.ALLOWED_OCTAVES)):
+        if not ((octave[0] == 'o') and (octave[1] == '=') and (octave[2:] in self.ALLOWED_OCTAVES)):
             print 'false octave'
             return False
 
@@ -58,13 +92,13 @@ class RtttlParser(object):
         return True
 
     def get_defaults_duration(self):
-        return self.get_defaults()[0][2:]
+        return self.defaults[0][2:]
 
     def get_defaults_octave(self):
-        return self.get_defaults()[1][2]
+        return self.defaults[1][2]
 
     def get_defaults_bpm(self):
-        return self.get_defaults()[2][2:]
+        return self.defaults[2][2:]
 
     def get_note_elements(self, note):
         return re.findall(r'^(\d{0,2})([pbeh]|[cdfga]#?)(\.?)(\d?)$', note)[0]
@@ -82,8 +116,8 @@ class RtttlParser(object):
         duration = self.get_note_duration(note)
         octave   = self.get_note_octave(note)
         pitch    = self.get_note_pitch(note)
-
-        if not ((duration in self.ALLOWED_DURATIONS) or (octave in self.ALLOWED_OCTAVES) or (pitch in self.ALLOWED_PITCHES)):
+        
+        if not ((duration in self.ALLOWED_DURATIONS) and (octave in self.ALLOWED_OCTAVES) and (pitch in self.ALLOWED_PITCHES)):
             return False
         else:
             return True
@@ -91,41 +125,44 @@ class RtttlParser(object):
     def interpret(self):
         name     = self.get_name()
         defaults = self.get_defaults()
+        defaults = self.all_defaults(defaults)
+        self.defaults = defaults
         notes    = self.get_notes()
 
         interpretation = []
         time = 0
 
         for note in notes:
-            if self.is_valid_note(note):
-                if note[0].isdigit():
-                    time = int(note[0])
+            if self.is_valid_defaults(defaults):    
+                if self.is_valid_note(note):
+                    if note[0].isdigit():
+                        time = int(note[0])
 
-                    if note[1].isdigit():
-                        time = time*10 + int(note[1])
+                        if note[1].isdigit():
+                            time = time*10 + int(note[1])
 
-                    duration = (60.0/int(defaults[2][2:]))*(4.0/time)
+                        duration = (60.0/int(defaults[2][2:]))*(4.0/time)
+                    else:
+                        time = int(defaults[0][2:])
+
+                        duration = (60.0/int(defaults[2][2:]))*(4.0/int(defaults[0][2:]))
+
+                        note = str(time) + note;
+
+                    if '.' in note:
+                        duration *= 1.5
+
+                    note = note.replace('.', '')
+
+                    frequency = self.FREQUENCIES[self.get_note_pitch(note)+self.get_note_octave(note)]
+
+                    duration  = float(duration)
+                    frequency = int(frequency)
+
+                    interpretation.append((duration, frequency))
                 else:
-                    time = int(defaults[0][2:])
-
-                    duration = (60.0/int(defaults[2][2:]))*(4.0/int(defaults[0][2:]))
-
-                    note = str(time) + note;
-
-                if '.' in note:
-                    duration *= 1.5
-
-                note = note.replace('.', '')
-
-                frequency = self.FREQUENCIES[self.get_note_pitch(note)+self.get_note_octave(note)]
-
-                duration  = float(duration)
-                frequency = int(frequency)
-
-                interpretation.append((duration, frequency))
-            else:
-                raise Exception('Invalid note.')
-                break
+                    raise Exception('Invalid note.')
+                    break
 
         return interpretation
 
@@ -135,3 +172,4 @@ if __name__ == '__main__':
     parser = RtttlParser(song)
 
     print parser.interpret()
+
