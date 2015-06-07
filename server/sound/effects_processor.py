@@ -1,9 +1,8 @@
 from math import pi, sin
 
 class EffectsProcessor(object):
-	def __init__(self, synthesized_data, effect_magnitude, effects = ['none']):
+	def __init__(self, synthesized_data, effects = ['none']):
 		self.data = synthesized_data
-		self.effect_magnitude = effect_magnitude
 		self.effects = effects
 		self.rate = 44100
 		self.effects_mapping = {'percussion': self.percussion,
@@ -18,12 +17,12 @@ class EffectsProcessor(object):
 		self.frequencies = self.get_frequencies(synthesized_data)
 	####################_MAIN FUNCTION_#################
 	def process(self):
+		data_to_process = self.merge_samples(self.samples)
 		data_to_return = []
 		for effect in self.effects:
-			if effect == 'none':
-				data_to_return = self.merge_samples(self.samples)
-			else:
-				data_to_return = self.effects_mapping[effect](self.effect_magnitude)
+			data_to_return = self.effects_mapping[effect](data_to_process)
+
+		data_to_return = self.normalize(data_to_return)
 		return data_to_return
 	####################################################
 
@@ -51,90 +50,97 @@ class EffectsProcessor(object):
 			output.extend(sample)
 		return output
 
-	#####################_EFFECTS_######################
-	def none(self):
-		output = self.merge_samples(self.samples)
-		return output
+	def normalize(self, data):
+		MAX_VALUE = 2 ** 15 - 1  #32767
+		maximum_value = 0
 
-	#values passed in?!
-	def distortion(self, effect_magnitude):
+		for value in data:
+			if abs(value) > maximum_value:
+				maximum_value = abs(value)
+
+		if not maximum_value == 0:
+			normalize_factor = (float(MAX_VALUE)/ maximum_value)
+
+		normalized_data = []
+		for value in data:
+			normalized_data.append(value * normalize_factor)
+
+		return normalized_data
+
+	#####################_EFFECTS_######################
+	def none(self, data_to_process):
+		return data_to_process
+
+	def distortion(self, data_to_process):
 		MAX_VALUE = 2**15 - 1 #32767
 		MIN_VALUE = -MAX_VALUE - 1
-		output = self.merge_samples(self.samples)
+		effect_magnitude = 3
 
-		for i in range(0, len(output)):
-			value = output[i]**effect_magnitude
+		for i in range(0, len(data_to_process)):
+			value = data_to_process[i]**effect_magnitude
 
 			if value > MIN_VALUE and value < MAX_VALUE:
-				output[i] = value
+				data_to_process[i] = value
 			elif value > MAX_VALUE:
-				output[i] = MAX_VALUE
+				data_to_process[i] = MAX_VALUE
 			elif value < MIN_VALUE:
-				output[i] = MIN_VALUE
+				data_to_process[i] = MIN_VALUE
 
-		return output
+		return data_to_process
 
-	#values passed in?!
-	def echo(self, effect_magnitude):
-		delay_value = effect_magnitude
+	def echo(self, data_to_process):
+		delay_value = 0.3
 		attenuation_factor = 0.5
-		output = self.merge_samples(self.samples)
 
 		#aplicacao do eco
-		for i in range(0, len(output)):
+		for i in range(0, len(data_to_process)):
 			delay = int(i + delay_value*self.rate)
 
-			if(delay < len(output)):
-				output[delay] += attenuation_factor*output[i]
+			if(delay < len(data_to_process)):
+				data_to_process[delay] += attenuation_factor*data_to_process[i]
 
 
-		return output
+		return data_to_process
 
-	#values passed in?!
-	def tremolo(self, effect_magnitude):
+	def tremolo(self, data_to_process):
+		effect_magnitude = 0.10
 		begin = end = 0
-		output = self.merge_samples(self.samples)
 
 		for sample,frequency in zip(self.samples, self.frequencies):
 
 			begin = end + len(sample)
 			x = 0
 			for i in range(begin, end):
-				output[i] += effect_magnitude * sin(2*pi*frequency*x/self.rate) * output[i]
+				data_to_process[i] += effect_magnitude * sin(2*pi*frequency*x/self.rate) * data_to_process[i]
 				x += 1
 
 			end = begin
-		return output
-
-	#values passed in?!      
-	def chorus(self, effect_magnitude):
-		output = self.merge_samples(self.samples)
+		return data_to_process
+     
+	def chorus(self, data_to_process):
 		begin = end = 0
-
+		effect_magnitude = 10
 		freq_variation = [20, 50]
 
 		for sample,frequency in zip(self.samples, self.frequencies):
 
 			begin = end + len(sample)
-			freq_to_apply = 1 - ((freq_variation[1]-freq_variation[0])/len(output))
+			freq_to_apply = 1 - ((freq_variation[1]-freq_variation[0])/len(data_to_process))
 
 			x=0
 			for i in range(0, len(self.samples)):
-				output[i] += effect_magnitude * sin(2*pi*freq_to_apply*x/self.rate)
+				data_to_process[i] += effect_magnitude * sin(2*pi*freq_to_apply*x/self.rate)
 				x+=1
 
 			end = begin
 
-		return output
+		return data_to_process
 
-	def percussion(self, effect_magnitude):
-		output = self.merge_samples(self.samples)
+	def percussion(self, data_to_process):
 		begin = end = 0
-
-
+		effect_magnitude = 100
 		time = 1
-		multiplier = 5
-
+		multiplier = 10
 
 		for sample,frequency in zip(self.samples, self.frequencies):
 
@@ -144,13 +150,13 @@ class EffectsProcessor(object):
 				x = 0
 				for i in range(begin, end):
 					if(x < time*self.rate):
-						output[i] += effect_magnitude*(1-((1.0/(time*self.rate))*x))*sin(2*pi*multiplier*frequency*w/rate)
+						data_to_process[i] += effect_magnitude*(1-((1.0/(time*self.rate))*x))*sin(2*pi*multiplier*frequency*w/rate)
 
 					x+=1
 
 			end = begin
 
-		return output
+		return data_to_process
 
 	def envelop(self, effect_magnitude):
 		pass

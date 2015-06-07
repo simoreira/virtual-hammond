@@ -121,7 +121,13 @@ class RtttlParser(object):
         octave   = self.get_note_octave(note)
         pitch    = self.get_note_pitch(note)
 
+<<<<<<< HEAD
         if (duration in self.ALLOWED_DURATIONS) and (octave in self.ALLOWED_OCTAVES) and (pitch in self.ALLOWED_PITCHES):
+=======
+        if not ((duration in self.ALLOWED_DURATIONS) and (octave in self.ALLOWED_OCTAVES) and (pitch in self.ALLOWED_PITCHES)):
+            return False
+        else:
+>>>>>>> ad1e0850ba898a2e12e2982ffdd585a12e42d290
             return True
         else:
             return False
@@ -136,8 +142,13 @@ class RtttlParser(object):
         interpretation = []
         time = 0
 
+<<<<<<< HEAD
         if self.is_valid_defaults(defaults):
             for note in notes:
+=======
+        for note in notes:
+            if self.is_valid_defaults(defaults):
+>>>>>>> ad1e0850ba898a2e12e2982ffdd585a12e42d290
                 if self.is_valid_note(note):
                     time = float(self.get_note_duration(note))
 
