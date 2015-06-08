@@ -158,6 +158,3 @@ class RtttlParser(object):
             raise Exception('Invalid defaults')
 
         return interpretation
-
-if __name__ == '__main__':
-    print RtttlParser('Dragon Ball GT:d=4,o=6,b=140:p,c,c,8a5,8a.5,8c,8d,c,a.5,a5,g5,a5,a5,8g5,8a5,8a.5,a5,g5,f5,e5,p,8d5,8d5,f5,d,f5,8g5,8a5,a.5,a5,g5,f5,g5,p,f5,e5,f5').interpret()

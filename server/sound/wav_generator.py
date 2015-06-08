@@ -34,7 +34,3 @@ class WavGenerator(object):
 
         wav.writeframes(wav_data)
         wav.close()
-
-if __name__ == '__main__':
-    wav_generator = WavGenerator(3, '888888888', 'PinkPanther:d=4,o=5,b=160:8d#,8e,2p,8f#,8g,2p,8d#,8e,16p,8f#,8g,16p,8c6,8b,16p,8d#,8e,16p,8b,2a#,2p,16a,16g,16e,16d,2e', [])
-    wav_generator.save()
