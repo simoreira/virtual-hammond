@@ -2,11 +2,8 @@ var interpret = function(id) {
     $('#song__interpret--'+id).show();
     $('#song__interpretations--'+id).hide();
 
-    var registry;
-    console.log(registry);
-
     $('#interpret--'+id).on('click', function() {
-        registry = $('#registry').val();
+        var registry = $('#registry').val();
         console.log(registry);
         var effects = [];
 
@@ -75,7 +72,6 @@ var getInterpretations = function(id) {
                 htmlstring += '<div class="panel-heading">Effects: ' + (waveFile['effects'] ? waveFile['effects'].replace(',', ', ') : 'none') + '. Registry: ' + waveFile['registry'] + '</div>';
                 htmlstring += '<div class="panel-body">';
                     htmlstring += '<div><audio controls><source src="' + waveFile['wave_file'] + '" type="audio/wav"></audio></div>';
-                    htmlstring += '<button class="btn btn-primary btn-fork" onclick="forkInterpretation(' + waveFile['id'] + ', \'' + waveFile['registry'] + '\', \'' + waveFile['effects'] + '\', \'' + waveFile['song_id'] + '\')"><i class="fa fa-code-fork"></i>Fork</button>';
                     htmlstring += '<div class="btn-group">';
                         htmlstring += '<button class="btn btn-success" onclick="voteForInterpretation(' + waveFile['id'] + ', 1)"><i class="fa fa-thumbs-up"></i></button>';
                         htmlstring += '<button class="btn btn-danger" onclick="voteForInterpretation(' + waveFile['id'] + ', -1)"><i class="fa fa-thumbs-down"></i></button>';
@@ -92,18 +88,6 @@ var getInterpretations = function(id) {
     }
 
     $('#song__interpretation--' + id + '').html(htmlstring);
-};
-
-var forkInterpretation = function(id, registry, effects, song_id) {
-    console.log(id);
-    console.log(registry);
-    console.log(effects);
-
-    $('#song__interpretations--'+song_id).hide();
-    $('#song__interpret--'+song_id).show();
-
-    $('#registry').val(registry);
-    $('#effects').val(effects);
 };
 
 var voteForInterpretation = function(id, vote) {
