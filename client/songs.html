@@ -74,12 +74,12 @@
                                     <div class="form">
                                         <div class="form-group" style="clear:both; display:none">
                                             <label for="song_id">Song ID</label>
-                                            <input type="number" min="1" class="form-control" id="song_id" name="song_id" placeholder="1" value="{{ id }}" required>
+                                            <input type="number" min="1" class="form-control" id="song_id" placeholder="1" value="{{ id }}" required>
                                         </div>
 
                                         <div class="form-group" style="clear:both;">
                                             <label for="registry">Registry</label>
-                                            <input type="number" class="form-control" id="registry" pattern=".{9,}" min="000000000" max="888888888" name="registry" placeholder="888888888" required value="888888888">
+                                            <input type="text" class="form-control" id="registry" pattern=".{9,}" min="000000000" max="888888888" placeholder="888888888" required value="888888888">
                                         </div>
 
                                         <div class="form-group">
