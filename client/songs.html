@@ -40,77 +40,81 @@
         <main class="main" role="main">
             <div class="container">
                 <div id="songs">
-                    <div id="song" v-repeat="songs" class="row well">
-                        <div class="song__list">
-                            <h3 class="song__title">{{ rtttl.split(':')[0] }}</h3>
+                    <div id="song" v-repeat="songs" class="row">
+                        <div class="song__list panel panel-default">
+                            <h3 class="panel-heading song__title">{{ rtttl.split(':')[0] }}</h3>
 
-                            <div id="song-waveform" class="col-md-2">
-                                <a href="{{ wave_form_file }}">
+                            <div class="panel-body">
+                                <div id="song-waveform" class="col-md-2">
                                     <img class="song__image image image-responsive" src="{{ wave_form_file }}">
-                                </a>
-                            </div>
-
-                            <div class="col-md-10">
-                                <pre id="song-rtttl">{{ rtttl }}</pre>
-
-                                <button class="btn btn-primary" onclick="interpret({{ id }})"><i class="fa fa-gear"></i>Interpret</button>
-                                <button class="btn btn-primary" onclick="getInterpretations({{ id }})"><i class="fa fa-music"></i>Interpretations</button>
-                            </div>
-                        </div>
-
-                        <div class="song__interpretations song__interpretations--{{ id }}">
-                            <div id="song__interpretation song__interpretation--{{ id }}" class="row well"></div>
-                        </div>
-
-                        <div class="song__interpret song__interpret--{{ id }}">
-                            <div class="form">
-                                <div class="form-group">
-                                    <label for="song_id">Song ID</label>
-                                    <input type="number" min="1" class="form-control" id="song_id" name="song_id" placeholder="1" value="{{ id }}" required>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="registry">Registry</label>
-                                    <input type="number" class="form-control" id="registry" pattern=".{9,}" min="000000000" max="888888888" name="registry" placeholder="888888888" required value="888888888">
+                                <div class="col-md-10" style="margin-bottom: 30px">
+                                    <pre id="song-rtttl">{{ rtttl }}</pre>
+
+                                    <button class="btn btn-primary" onclick="interpret({{ id }})"><i class="fa fa-gear"></i>Interpret</button>
+                                    <button class="btn btn-primary" onclick="getInterpretations({{ id }})"><i class="fa fa-music"></i>Interpretations List</button>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="effects">Effects</label>
-
-                                    <div class="effects">
-                                        <div class="btn-group" id="effects" data-toggle="buttons">
-                                            <label for="btn-echo" class="btn btn-default">
-                                                <input id="btn-echo" type="checkbox" name="effects" value="echo"> Echo
-                                            </label>
-
-                                            <label for="btn-tremolo" class="btn btn-default">
-                                                <input id="btn-tremolo" type="checkbox" name="effects" value="tremolo"> Tremolo
-                                            </label>
-
-                                            <label for="btn-distortion" class="btn btn-default">
-                                                <input id="btn-distortion" type="checkbox" name="effects" value="distortion"> Distortion
-                                            </label>
-
-                                            <label for="btn-percussion" class="btn btn-default">
-                                                <input id="btn-percussion" type="checkbox" name="effects" value="percussion"> Percussion
-                                            </label>
-
-                                            <label for="btn-chorus" class="btn btn-default">
-                                                <input id="btn-chorus" type="checkbox" name="effects" value="chorus"> Chorus
-                                            </label>
-
-                                            <label for="btn-envelop" class="btn btn-default">
-                                                <input id="btn-envelop" type="checkbox" name="effects"  value="envelop"> Envelop
-                                            </label>
-                                        </div>
+                                <div class="song__interpretations" id="song__interpretations--{{ id }}">
+                                    <div class="song__interpretation" id="song__interpretation--{{ id }}">
                                     </div>
                                 </div>
 
-                                <div>
-                                    <button class="btn btn-primary" id="interpret">Generate Interpretation</button>
+                                <div class="song__interpret" id="song__interpret--{{ id }}">
+                                    <div class="form">
+                                        <div class="form-group" style="clear:both; display:none">
+                                            <label for="song_id">Song ID</label>
+                                            <input type="number" min="1" class="form-control" id="song_id" name="song_id" placeholder="1" value="{{ id }}" required>
+                                        </div>
+
+                                        <div class="form-group" style="clear:both;">
+                                            <label for="registry">Registry</label>
+                                            <input type="number" class="form-control" id="registry" pattern=".{9,}" min="000000000" max="888888888" name="registry" placeholder="888888888" required value="888888888">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="effects">Effects</label>
+
+                                            <div class="effects">
+                                                <div class="btn-group" id="effects" data-toggle="buttons">
+                                                    <label for="btn-echo" class="btn btn-default">
+                                                        <input id="btn-echo" type="checkbox" name="effects" value="echo"> Echo
+                                                    </label>
+
+                                                    <label for="btn-tremolo" class="btn btn-default">
+                                                        <input id="btn-tremolo" type="checkbox" name="effects" value="tremolo"> Tremolo
+                                                    </label>
+
+                                                    <label for="btn-distortion" class="btn btn-default">
+                                                        <input id="btn-distortion" type="checkbox" name="effects" value="distortion"> Distortion
+                                                    </label>
+
+                                                    <label for="btn-percussion" class="btn btn-default">
+                                                        <input id="btn-percussion" type="checkbox" name="effects" value="percussion"> Percussion
+                                                    </label>
+
+                                                    <label for="btn-chorus" class="btn btn-default">
+                                                        <input id="btn-chorus" type="checkbox" name="effects" value="chorus"> Chorus
+                                                    </label>
+
+                                                    <label for="btn-envelop" class="btn btn-default">
+                                                        <input id="btn-envelop" type="checkbox" name="effects"  value="envelop"> Envelop
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <button class="btn btn-success" id="interpret--{{id}}"><i class="fa fa-check-circle"></i>Generate Interpretation</button>
+                                            <button class="btn btn-default" id="interpret--{{id}}--close"><i class="fa fa-close"></i>Close</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>
@@ -135,7 +139,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="scripts/bootstrap.min.js"></script>
         <script src="scripts/vue.js"></script>
-        <script src="scripts/main.js"></script>
         <script src="scripts/songs.js"></script>
     </body>
 </html>

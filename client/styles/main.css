@@ -107,9 +107,7 @@ i.fa {
 /* Add Page */
 
 .song__title {
-    margin-left: 15px;
     margin-top: 0;
-    margin-bottom: 15px;
 }
 
 .song__image {
@@ -128,6 +126,14 @@ i.fa {
 
 .song__interpret {
     display: none;
+}
+
+.song__interpretation {
+    display: none;
+}
+
+.btn-fork {
+    margin-right: 10px;
 }
 
 /* Small devices (tablets, 768px and up) */
