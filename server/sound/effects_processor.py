@@ -158,22 +158,29 @@ class EffectsProcessor(object):
 
 	def envelop(self, data_to_process):
 		begin = end = 0
+		old_freq = -1
 		for sample,frequency in zip(self.samples, self.frequencies):
 			end = begin + len(sample)
-			len_samples = len(sample)
-			first_ch = begin + int(0.1 * len_samples)
-			second_ch = begin + int(0.25 * len_samples)
-			third_ch = begin + int(0.75 * len_samples)
-			for i in xrange(begin, end):
-				if i < first_ch:
-					data_to_process[i] *= float(i) / first_ch
-				elif i < second_ch:
-					data_to_process[i] *= (second_ch - i) / first_ch + 0.6
-				elif i < second_ch:
+			if old_freq != frequency:
+				len_samples = len(sample)
+				first_ch = int(0.1 * len_samples)
+				second_ch = int(0.25 * len_samples)
+				third_ch = int(0.75 * len_samples)
+				x = 0
+				for i in xrange(begin, end):
+					if x < first_ch:
+						data_to_process[i] *= float(x) / first_ch
+					elif x < second_ch:
+						data_to_process[i] *= -2. / 75. * (x - first_ch) * 15. / (second_ch - first_ch) + 19. / 15.
+					elif x < third_ch:
+						data_to_process[i] *= 0.6
+					else:
+						data_to_process[i] *= -0.024 * (x - third_ch) * 25. / (len_samples - third_ch) + 0.6
+					x += 1
+			else:
+				for i in xrange(begin, end):
 					data_to_process[i] *= 0.6
-				else:
-					data_to_process[i] *= 0.6 * (third_ch - i) / third_ch
+			old_freq = frequency
 			begin = end
-
 		return data_to_process
 	
