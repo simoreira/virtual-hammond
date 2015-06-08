@@ -46,7 +46,7 @@ class Interpretation(BaseModel):
         return interpretations
 
     def get_interpretations_wave_files_by_song_id(self, song_id):
-        wave_files = self.database.fetch('SELECT id,wave_file,votes FROM interpretations WHERE song_id=?', (song_id,))
+        wave_files = self.database.fetch('SELECT * FROM interpretations WHERE song_id=?', (song_id,))
         return wave_files
 
     def upvote_interpretation_by_id(self, id):

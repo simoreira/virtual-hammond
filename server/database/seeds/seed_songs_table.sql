@@ -1,3 +1,3 @@
 INSERT INTO songs(rtttl, wave_form_file) VALUES('The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6', 'storage/wave_form_files/ce64e66b0fd892ae315cf38ef063ad8f.png');
-INSERT INTO songs(rtttl, wave_form_file) VALUES('Dragon Ball GT:d=4,o=6,b=140:p,c,c,8a5,8a.5,8c,8d,c,a.5,a5,g5,a5,a5,8g5,8a5,8a.5,a5,g5,f5,e5,p,8d5,8d5,f5,d,f5,8g5,8a5,a.5,a5,g5,f5,g5,p,f5,e5,f5', 'storage/wave_form_files/55621b15bc6903a824565daa7d388a0a.png');
+INSERT INTO songs(rtttl, wave_form_file) VALUES('PinkPanther:d=4,o=5,b=160:8d#,8e,2p,8f#,8g,2p,8d#,8e,16p,8f#,8g,16p,8c6,8b,16p,8d#,8e,16p,8b,2a#,2p,16a,16g,16e,16d,2e', 'storage/wave_form_files/136c4c276e369929054d4d4063d4d4ad.png');
 INSERT INTO songs(rtttl, wave_form_file) VALUES('Barbie girl:d=4,o=5,b=125:8g#,8e,8g#,8c#6,a,p,8f#,8d#,8f#,8b,g#,8f#,8e,p,8e,8c#,f#,c#,p,8f#,8e,g#,f#', 'storage/wave_form_files/d40a835de2bd8ef546d87321b10975f9.png');

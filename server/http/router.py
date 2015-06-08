@@ -6,9 +6,9 @@ class Router:
     def __init__(self, database):
         self.api = Api(database)
 
-    # @cherrypy.expose
-    # def default(self, attr):
-    #     return open(os.path.abspath(os.path.join(os.getcwd(), '../client/404.html')), 'rb')
+    @cherrypy.expose
+    def default(self, attr):
+        return open(os.path.abspath(os.path.join(os.getcwd(), '../client/404.html')), 'rb')
 
     @cherrypy.expose
     def index(self):

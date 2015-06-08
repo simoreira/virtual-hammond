@@ -140,7 +140,7 @@ class Api(object):
     @cherrypy.tools.json_out()
     def submit_vote(self, id, vote):
         try:
-            if int(vote) == 1:
+            if int(vote) > 0:
                 self.interpretation.upvote_interpretation_by_id(id)
             else:
                 self.interpretation.downvote_interpretation_by_id(id)

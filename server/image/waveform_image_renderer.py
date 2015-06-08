@@ -49,3 +49,7 @@ class WaveformImageRenderer(object):
 
         filename = os.path.abspath(os.path.join(os.path.dirname(__file__), '../storage/wave_form_files/' + self.md5(self.rtttl) + '.png'))
         plot.savefig(filename, bbox_inches = 'tight')
+
+if __name__ == '__main__':
+    a = WaveformImageRenderer('PinkPanther:d=4,o=5,b=160:8d#,8e,2p,8f#,8g,2p,8d#,8e,16p,8f#,8g,16p,8c6,8b,16p,8d#,8e,16p,8b,2a#,2p,16a,16g,16e,16d,2e')
+    a.save()
