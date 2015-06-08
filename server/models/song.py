@@ -18,8 +18,9 @@ class Song(BaseModel):
 
         try:
             self.database.query('INSERT INTO songs(rtttl, wave_form_file) VALUES(?, ?)', (data['rtttl'], data['wave_form_file']))
-        finally:
             data['id'] = self.database.cursor.lastrowid
+        except:
+            data['id'] = self.database.fetch('SELECT id FROM songs WHERE rtttl=?', (data['rtttl'],))[0]
 
         return data
 

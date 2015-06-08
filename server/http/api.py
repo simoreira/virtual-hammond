@@ -17,7 +17,7 @@ class Api(object):
     @cherrypy.expose
     @cherrypy.tools.json_out()
     def index(self):
-        return self.respond_failure('You\'re at the API root.')
+        return self.respond_failure('The API root has no resources.')
 
     @cherrypy.tools.json_out()
     @cherrypy.expose
@@ -40,13 +40,17 @@ class Api(object):
     @cherrypy.expose
     def create_interpretation(self, song_id, registry, effects):
         try:
-            effects = effects.split(',')
 
             if len(song_id) == 0:
                 raise Exception('Empty song ID.')
 
             if len(registry) == 0:
                 raise Exception('Empty registry.')
+
+            if len(effects) == 0:
+                effects = []
+            else:
+                effects = effects.split(',')
 
             data = {
                 'song_id':  int(song_id),
@@ -136,8 +140,10 @@ class Api(object):
     @cherrypy.tools.json_out()
     def submit_vote(self, id, vote):
         try:
-            vote = int(vote)
-            self.interpretation.update_interpretation_votes_by_id(id, vote)
+            if int(vote) == 1:
+                self.interpretation.upvote_interpretation_by_id(id)
+            else:
+                self.interpretation.downvote_interpretation_by_id(id)
             return self.respond_success()
         except Exception as e:
             return self.respond_failure(str(e))
