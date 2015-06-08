@@ -24,11 +24,11 @@ var interpret = function(id) {
 
             if(data.success)
             {
-                $('#song__interpret--'+id +' .form' + id).append('<div class="alert alert-success" role="alert"><i class="fa fa-exclamation-check-circle"></i>Success<p>Interpretation created successfuly!</p></div>');
+                $('#song__interpret__alert--'+id).html('<div class="alert alert-success" style="clear:both" role="alert"><i class="fa fa-check-circle"></i>Success<p>Interpretation created successfuly!</p></div>');
             }
             else
             {
-                $('#song__interpret--'+id +' .form' + id).append('<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i>Error<p>Something went wrong.</p></div>');
+                $('#song__interpret__alert--'+id).html('<div class="alert alert-danger" style="clear:both" role="alert"><i class="fa fa-exclamation-triangle"></i>Error<p>Something went wrong.</p></div>');
             }
         });
     });
@@ -40,6 +40,7 @@ var interpret = function(id) {
 
 var getInterpretations = function(id) {
     var waveFilesList = [];
+    $('#song__interpretations--'+id).show();
 
     $.ajax({
         method: 'GET',
@@ -63,28 +64,55 @@ var getInterpretations = function(id) {
     console.log(waveFilesList);
     var htmlstring = '';
 
-    waveFilesList.forEach(function(waveFile) {
-        htmlstring += '<div class="well" style="clear:both">';
-            htmlstring += '<div><audio controls><source src="' + waveFile['wave_file'] + '" type="audio/wav"></audio></div>';
-            htmlstring += '<button class="btn btn-primary btn-fork" onclick="forkInterpretation(' + waveFile['id'] + ')"><i class="fa fa-code-fork"></i>Fork</button>';
-            htmlstring += '<div class="btn-group">';
-                htmlstring += '<button class="btn btn-success" onclick="voteForInterpretation(' + waveFile['id'] + ', 1)"><i class="fa fa-thumbs-up"></i></button>';
-                htmlstring += '<button class="btn btn-danger" onclick="voteForInterpretation(' + waveFile['id'] + ', -1)"><i class="fa fa-thumbs-down"></i></button>';
+    if(!waveFilesList.length == 0)
+    {
+        waveFilesList.forEach(function(waveFile) {
+            htmlstring += '<div class="panel panel-default" style="clear:both">';
+                htmlstring += '<div class="panel-heading"> Effects: ' + (waveFile['effects'] ? waveFile['effects'].replace(',', ', ') : 'none') + '</div>';
+                htmlstring += '<div class="panel-body">';
+                    htmlstring += '<div><audio controls><source src="' + waveFile['wave_file'] + '" type="audio/wav"></audio></div>';
+                    htmlstring += '<button class="btn btn-primary btn-fork" onclick="forkInterpretation(' + waveFile['id'] + ', "' + waveFile['registry'] + '", "' + waveFile['effects'] + '")"><i class="fa fa-code-fork"></i>Fork</button>';
+                    htmlstring += '<div class="btn-group">';
+                        htmlstring += '<button class="btn btn-success" onclick="voteForInterpretation(' + waveFile['id'] + ', 1)"><i class="fa fa-thumbs-up"></i></button>';
+                        htmlstring += '<button class="btn btn-danger" onclick="voteForInterpretation(' + waveFile['id'] + ', -1)"><i class="fa fa-thumbs-down"></i></button>';
+                    htmlstring += '</div>';
+                    htmlstring += '<button class="btn btn-default" style="margin-left: 10px">' + waveFile['votes'] + ' votes </button>';
+                    htmlstring += '<div id="song__votes__alert--' + waveFile['id'] + '"></div>';
+                htmlstring += '</div>';
             htmlstring += '</div>';
-            htmlstring += '<btn class="btn btn-default" style="margin-left: 10px">' + waveFile['votes'] + ' votes </span>';
-        htmlstring += '</div>';
-    });
+        });
+    }
+    else
+    {
+        htmlstring = '<div class="alert alert-danger" style="clear:both" role="alert"><i class="fa fa-exclamation-triangle"></i>Error<p>There are no interpretations for this song.</p></div>';
+    }
 
     $('#song__interpretation--' + id + '').html(htmlstring);
 };
 
-var forkInterpretation = function(id) {
+var forkInterpretation = function(id, registry, effects) {
+    $('#song__interpret--'+id).show();
 
+    console.log(id);
+    console.log(registry);
+    console.log(effects);
 };
 
-
-var voteForInterpretation = function(id) {
-
+var voteForInterpretation = function(id, vote) {
+    $.ajax({
+        method: 'GET',
+        url: '/api/submit_vote',
+        data: { id: id,     vote: vote }
+    }).done(function(data) {
+        if(data.success)
+        {
+            $('#song__votes__alert--'+id).append('<div class="alert alert-success" style="margin-top: 20px" role="alert" style="clear:both"><i class="fa fa-exclamation-triangle"></i>Success<p>Vote was sent successfuly.</p></div>');
+        }
+        else
+        {
+            $('#song__votes__alert--'+id).append('<div class="alert alert-error" style="margin-top: 20px" role="alert" style="clear:both"><i class="fa fa-exclamation-triangle"></i>Error<p>Vote was not sent due to an error.</p></div>');
+        }
+    });
 };
 
 $(document).ready(function() {
@@ -94,11 +122,17 @@ $(document).ready(function() {
     }).done(function(data) {
         var songs = data.data.songs;
 
+        if(songs == null)
+        {
+            $('#songs').append('<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-triangle"></i>Error<p>There are no songs in the database yet.</p></div>');
+        }
+
         new Vue({
             el: '#song',
             data: {
                 songs: songs
             }
         });
+
     });
 });

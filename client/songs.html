@@ -35,6 +35,14 @@
                     </div>
                 </div>
             </nav>
+
+            <div class="jumbotron">
+                <div class="container">
+                    <h1>Songs</h1>
+
+                    <p>Dozens of songs ready to be interpreted to your own liking.</p>
+                </div>
+            </div>
         </header>
 
         <main class="main" role="main">
@@ -52,8 +60,8 @@
                                 <div class="col-md-10" style="margin-bottom: 30px">
                                     <pre id="song-rtttl">{{ rtttl }}</pre>
 
-                                    <button class="btn btn-primary" onclick="interpret({{ id }})"><i class="fa fa-gear"></i>Interpret</button>
                                     <button class="btn btn-primary" onclick="getInterpretations({{ id }})"><i class="fa fa-music"></i>Interpretations List</button>
+                                    <button class="btn btn-primary" onclick="interpret({{ id }})"><i class="fa fa-gear"></i>Create Interpretation</button>
                                 </div>
 
                                 <div class="song__interpretations" id="song__interpretations--{{ id }}">
@@ -62,6 +70,7 @@
                                 </div>
 
                                 <div class="song__interpret" id="song__interpret--{{ id }}">
+                                    <div id="song__interpret__alert--{{id}}"></div>
                                     <div class="form">
                                         <div class="form-group" style="clear:both; display:none">
                                             <label for="song_id">Song ID</label>
@@ -107,14 +116,12 @@
 
                                         <div>
                                             <button class="btn btn-success" id="interpret--{{id}}"><i class="fa fa-check-circle"></i>Generate Interpretation</button>
-                                            <button class="btn btn-default" id="interpret--{{id}}--close"><i class="fa fa-close"></i>Close</button>
+                                            <button class="btn btn-danger" id="interpret--{{id}}--close"><i class="fa fa-close"></i>Close</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
