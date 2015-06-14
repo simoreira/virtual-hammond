@@ -1,4 +1,3 @@
-import hashlib
 from models.base_model import BaseModel
 from models.song import Song
 from sound.wav_generator import WavGenerator
@@ -7,12 +6,6 @@ class Interpretation(BaseModel):
     def __init__(self, database):
         self.song     = Song(database)
         self.database = database
-
-    def md5(self, string):
-        return hashlib.md5(string).hexdigest()
-
-    def list_to_string(self, a):
-        return ",".join(map(str, a))
 
     def create_interpretation(self, data):
         data['wave_file'] = 'storage/wave_files/' + self.md5(str(data['song_id']) + data['registry'] + self.list_to_string(data['effects'])) + '.wav'

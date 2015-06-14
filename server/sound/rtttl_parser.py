@@ -15,9 +15,6 @@ class RtttlParser(object):
         self.defaults    = self.get_defaults()
         self.notes       = self.get_notes()
 
-    def remove_all_whitespace(self, string):
-        return string.replace(" ", "")
-
     def get_rtttl_parts(self):
         rtttl_parts = self.rtttl.split(':')
 
@@ -82,15 +79,12 @@ class RtttlParser(object):
         bpm      = defaults[2]
 
         if not ((duration[0] == 'd') and (duration[1] == '=') and (duration[2:] in self.ALLOWED_DURATIONS)):
-            print 'false duration'
             return False
 
         if not ((octave[0] == 'o') and (octave[1] == '=') and (octave[2:] in self.ALLOWED_OCTAVES)):
-            print 'false octave'
             return False
 
         if not ((bpm[0] == 'b') and (bpm[1] == '=') and (bpm[2:] in self.ALLOWED_BPM)):
-            print 'false bpm'
             return False
 
         return True
