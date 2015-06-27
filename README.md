@@ -1,11 +1,13 @@
 # Virtual Hammond
 
+Web application that allows users to provide a song's RTTTL specification and a registry, generating the corresponding song.
+
 ## Installation
 
 ### Python Dependencies
 
 ```shell
-$ pip install cherrypy pytest matplotlib
+$ pip install -r requirements.txt
 ```
 
 ### Setup the Database
