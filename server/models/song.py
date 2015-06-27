@@ -1,4 +1,4 @@
-import hashlib
+from helpers import *
 from models.base_model import BaseModel
 from sound.rtttl_parser import RtttlParser
 from image.waveform_image_renderer import WaveformImageRenderer
@@ -7,14 +7,11 @@ class Song(BaseModel):
     def __init__(self, database):
         self.database = database
 
-    def md5(self, string):
-        return hashlib.md5(string).hexdigest()
-
     def create_song(self, data):
         renderer = WaveformImageRenderer(data['rtttl'])
         renderer.save()
 
-        data['wave_form_file']  = 'storage/wave_form_files/' + str(self.md5(data['rtttl'])) + '.png'
+        data['wave_form_file']  = 'storage/wave_form_files/' + str(md5(data['rtttl'])) + '.png'
 
         try:
             self.database.query('INSERT INTO songs(rtttl, wave_form_file) VALUES(?, ?)', (data['rtttl'], data['wave_form_file']))

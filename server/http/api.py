@@ -1,5 +1,4 @@
 import cherrypy
-import hashlib
 from models.song import Song
 from models.interpretation import Interpretation
 from image.waveform_image_renderer import WaveformImageRenderer
@@ -10,9 +9,6 @@ class Api(object):
     def __init__(self, database):
         self.song           = Song(database)
         self.interpretation = Interpretation(database)
-
-    def md5(self, string):
-        return hashlib.md5(string).hexdigest()
 
     @cherrypy.expose
     @cherrypy.tools.json_out()

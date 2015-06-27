@@ -1,3 +1,4 @@
+from helpers import *
 from models.base_model import BaseModel
 from models.song import Song
 from sound.wav_generator import WavGenerator
@@ -8,13 +9,13 @@ class Interpretation(BaseModel):
         self.database = database
 
     def create_interpretation(self, data):
-        data['wave_file'] = 'storage/wave_files/' + self.md5(str(data['song_id']) + data['registry'] + self.list_to_string(data['effects'])) + '.wav'
+        data['wave_file'] = 'storage/wave_files/' + md5(str(data['song_id']) + data['registry'] + list_to_csv(data['effects'])) + '.wav'
 
         rtttl = self.song.get_song_rtttl_by_id(data['song_id'])
         wav_generator = WavGenerator(data['song_id'], data['registry'], rtttl, data['effects'])
         wav_generator.save()
 
-        data['effects'] = self.list_to_string(data['effects'])
+        data['effects'] = list_to_csv(data['effects'])
 
         self.database.query('INSERT INTO interpretations(song_id, registry, effects, wave_file, votes) VALUES(?, ?, ?, ?, ?)', (data['song_id'], data['registry'], data['effects'], data['wave_file'], 0))
 
