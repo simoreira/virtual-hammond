@@ -1,9 +1,6 @@
 import cherrypy
 from models.song import Song
 from models.interpretation import Interpretation
-from image.waveform_image_renderer import WaveformImageRenderer
-from sound.wav_generator import WavGenerator
-from sound.rtttl_parser import RtttlParser
 
 class Api(object):
     def __init__(self, database):
