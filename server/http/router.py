@@ -22,10 +22,6 @@ class Router:
         return self.open_file('../client/add.html')
 
     @cherrypy.expose
-    def interpret(self):
-        return self.open_file('../client/interpret.html')
-
-    @cherrypy.expose
     def songs(self):
         return self.open_file('../client/songs.html')
 
