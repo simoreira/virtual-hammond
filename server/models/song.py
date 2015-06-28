@@ -1,6 +1,5 @@
 from helpers import *
 from models.base_model import BaseModel
-from sound.rtttl_parser import RtttlParser
 from image.waveform_image_renderer import WaveformImageRenderer
 
 class Song(BaseModel):
