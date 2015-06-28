@@ -2,8 +2,7 @@
 ## Project
 #############################################################################
 
-server/storage/wave_files/*
-server/storage/wave_form_files/*
+server/storage/
 *.sqlite3
 *.pyc
 __pycache__/
