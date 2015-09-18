@@ -4,15 +4,15 @@
 import os
 import cherrypy
 import json
+from helpers import *
 from http.router import Router
 from database.sqlite_database_manager import SqliteDatabaseManager
 
-def bootstrap():
-    api_config = os.path.abspath(os.path.join(os.path.dirname(__file__), 'config/server.conf'))
-    database_config = json.load(open('config/database.json', 'r'))
-    database = SqliteDatabaseManager(database_config['dbname'])
-    router = Router(database)
-    cherrypy.quickstart(router, '/', api_config)
-
 if __name__ == '__main__':
-    bootstrap()
+    server_config   = abspath_from_relativepath('config/server.conf')
+    database_config = json_from_file('config/database.json')
+
+    database = SqliteDatabaseManager(database_config['dbname'])
+    router   = Router(database)
+
+    cherrypy.quickstart(router, '/', server_config)

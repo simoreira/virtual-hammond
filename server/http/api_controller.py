@@ -2,7 +2,7 @@ import cherrypy
 from models.song import Song
 from models.interpretation import Interpretation
 
-class Api(object):
+class ApiController(object):
     def __init__(self, database):
         self.song           = Song(database)
         self.interpretation = Interpretation(database)
@@ -33,7 +33,6 @@ class Api(object):
     @cherrypy.expose
     def create_interpretation(self, song_id, registry, effects):
         try:
-
             if len(song_id) == 0:
                 raise Exception('Empty song ID.')
 

@@ -32,7 +32,8 @@ $ ./seed_database.sh
 
 ```shell
 $ cd server
-$ python server.py
+$ chmod +x server.py
+$ ./server.py
 ```
 
 ### Run the Client

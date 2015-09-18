@@ -1,6 +1,7 @@
+import unittest
 from sound.rtttl_parser import RtttlParser
 
-class TestRtttlParser(object):
+class TestRtttlParser(unittest.TestCase):
     SONG = {
         'rtttl': 'The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6',
         'name': 'The Simpsons',
@@ -10,7 +11,7 @@ class TestRtttlParser(object):
     }
 
     def test_frequencies(self):
-        assert isinstance(RtttlParser(self.SONG['rtttl']).FREQUENCIES, dict)
+        self.assertTrue(isinstance(RtttlParser(self.SONG['rtttl']).FREQUENCIES, dict))
 
     def test_interpret(self):
         parser = RtttlParser(self.SONG['rtttl'])
@@ -19,7 +20,7 @@ class TestRtttlParser(object):
 
         expected_result = self.SONG['interpretation']
 
-        assert result == expected_result
+        self.assertTrue(result == expected_result)
 
     def test_get_name(self):
         parser = RtttlParser(self.SONG['rtttl'])
@@ -28,7 +29,7 @@ class TestRtttlParser(object):
 
         expected_result = self.SONG['name']
 
-        assert result == expected_result
+        self.assertTrue(result == expected_result)
 
     def test_get_defaults(self):
         parser = RtttlParser(self.SONG['rtttl'])
@@ -37,7 +38,7 @@ class TestRtttlParser(object):
 
         expected_result = self.SONG['defaults']
 
-        assert result == expected_result
+        self.assertTrue(result == expected_result)
 
     def test_get_notes(self):
         parser = RtttlParser(self.SONG['rtttl'])
@@ -46,7 +47,7 @@ class TestRtttlParser(object):
 
         expected_result = self.SONG['notes']
 
-        assert result == expected_result
+        self.assertTrue(result == expected_result)
 
     def test_get_note_elements(self):
         parser = RtttlParser(self.SONG['rtttl'])
@@ -55,7 +56,7 @@ class TestRtttlParser(object):
 
         expected_result = ('4', 'c#', '.', '7')
 
-        assert result == expected_result
+        self.assertTrue(result == expected_result)
 
     def test_get_note_pitch(self):
         parser = RtttlParser(self.SONG['rtttl'])
@@ -64,7 +65,7 @@ class TestRtttlParser(object):
 
         expected_result = 'c#'
 
-        assert result == expected_result
+        self.assertTrue(result == expected_result)
 
     def test_get_note_octave(self):
         parser = RtttlParser(self.SONG['rtttl'])
@@ -73,4 +74,7 @@ class TestRtttlParser(object):
 
         expected_result = '7'
 
-        assert result == expected_result
+        self.assertTrue(result == expected_result)
+
+if __name__ == '__main__':
+    unittest.main()

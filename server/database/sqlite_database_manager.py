@@ -20,5 +20,8 @@ class SqliteDatabaseManager:
         rows = [dict(record) for record in records]
         return rows
 
-    def __del__(self):
+    def close():
         self.connection.close()
+
+    def __del__(self):
+        self.close()

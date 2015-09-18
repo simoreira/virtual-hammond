@@ -1,3 +1,2 @@
 cherrypy
-pytest
 matplotlib

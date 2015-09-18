@@ -24,7 +24,7 @@ main() {
     msg ">>> Running tests..."
 
     for file in $(find . -name '*.py'); do
-        py.test $file
+        python $file
         msg "  Ran test $file."
     done
 }
